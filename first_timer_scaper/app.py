@@ -65,7 +65,7 @@ def add_repository():
     This shows an html page with a link to the status of the repository.
     """
     repository = request.forms.get('repository')
-    scraper.scrape_organization(repository)
+    scraper.scrape_repository(repository)
     return static("added-repository.html")
 
 @post("/repository.json")
