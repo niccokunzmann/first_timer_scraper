@@ -63,34 +63,50 @@ API
 
 `ENDING` is either `.html` or `.json`
 
-- `POST /organization/<organization>`  
-  Submit an organization for scraping.
-  This shows an html page with a link to the status of the organization.
-- `GET /organization<ENDING>`  
-  List all organizations with links to their statuses.
-- `GET /organization/<organization><ENDING>`  
-  Get an organization and its status.
-- `POST /repository/<organization>/<repository>`  
-  Sumbit a repository for scraping
-- `GET /repository/<organization>/<repository><ENDING>`  
-  Get the repository and its status.  
-- `POST /auth`  
-  Add `username` and `password` to those usable to scrape github.
-  They will be tried and removed if invalid.
-- `POST /user/<user>`  
-  Trace back the user's repositories to their origins.
-  Submit all found organizations.
-- `GET /user/<user><ENDING>`  
-  Return the status of this github user.
-  - what are the first-timer repositories?
-- `GET /user<ENDING>`  
-  All the users and their statuses.
-- `GET /`  
-  Show a description of the project.
-  - Link to this repository#readme.
-  - Link to download the code.
-  - How to contribute.
-  - What this is about.
+- General
+  - `POST /auth`  
+    Add `username` and `password` to those usable to scrape github.
+    They will be tried and removed if invalid.
+  - `GET /source`  
+    Get the source code as a zip file.
+  - `GET /`  
+    Show a description of the project.
+    - Link to this repository#readme.
+    - Link to download the code /source.
+    - How to contribute.
+    - What this is about.
+- Organization
+  - `GET /organizations<ENDING>`  
+    List all organizations with links to their statuses.
+  - `GET /organization/<organization><ENDING>`  
+    Get an organization and its status.
+  - `POST /organization/<organization>`  
+    Submit an organization for scraping.
+    This shows an html page with a link to the status of the organization.
+- Repository
+  - `GET /repositories<ENDING>`  
+    List all repositories with links to their statuses.
+  - `GET /repository/<organization>/<repository><ENDING>`  
+    Get the repository and its status.  
+  - `POST /repository/<organization>/<repository>`  
+    Sumbit a repository for scraping
+- User
+  - `GET /user<ENDING>`  
+    All the users and their statuses.
+  - `GET /user/<user><ENDING>`  
+    Return the status of this github user.
+    - what are the first-timer repositories?
+  - `POST /user/<user>`  
+    Trace back the user's repositories to their origins.
+    Submit all found organizations.
+
+Command Line
+------------
+
+`python3 -m first_timer_scraper <DATA_FOLDER> <SECRETS_FOLDER>`
+
+- `DATA_FOLDER` is the folder where the data is stored.
+- `SECRETS_FOLDER` is the folder where the secrets are stored.
 
 Further Reading
 ---------------
