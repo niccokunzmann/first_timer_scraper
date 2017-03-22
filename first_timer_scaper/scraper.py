@@ -4,7 +4,10 @@ import threading
 from .cache import NoCache
 import requests
 from .response import Response
+from .repository import Repository
 import functools
+#import hanging_threads
+#hanging_threads.start_monitoring()
 
 NUMBER_OF_THREADS = 100
 WAIT_FOR_RETRY_IN_SECONDS = 60
@@ -39,7 +42,7 @@ def unique_step(parallel):
     both results.
     """
     executor = ThreadPoolExecutor(NUMBER_OF_THREADS)
-    lock = threading.Lock()
+    lock = threading.RLock()
     requesting = {}
     @functools.wraps(parallel)
     def record_call(*args):
@@ -73,7 +76,7 @@ class Scraper:
     def get(self, url):
         """Return a Response for the URL or None"""
         with self._lock:
-            result = self._cache.get(url)
+            result = self._cache.get_response(url)
             if result:
                 print("cached", url)
                 return result
@@ -103,7 +106,7 @@ class Scraper:
         result = Response.from_response(response)
         # first cache, then remove the future
         with self._lock:
-            self._cache.cache(result)
+            self._cache.cache_response(result)
         return result
     
     def set_cache(self, cache):
@@ -132,13 +135,18 @@ class Scraper:
         
     @unique_step
     def clone(self, full_name):
-        print("cloning", full_name)
-        return 123
+        repository = self._cache.get_repository(full_name)
+        if repository:
+            return repository
+        repository = Repository(full_name)
+        self._cache.cache_repository(repository)
+        repository.update()
+        return repository
     
-    def scrape_repository(self, repository):
-        print("scrape repository", repository)
-        @self.clone(repository)
-        def done(v):
-            print("done:", v)
+    def scrape_repository(self, full_name):
+        print("scrape repository", full_name)
+        @self.clone(full_name)
+        def done(repo):
+            print("done:", repo)
             
 __all__ = ["Scraper"]

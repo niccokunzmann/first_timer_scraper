@@ -1,4 +1,5 @@
 from .response import Response
+from .repository import Repository
 import os
 
 class PathCache:
