@@ -6,20 +6,29 @@ class PathCache:
 
     def __init__(self, folder):
         self._folder = folder
+        self._response_folder = os.pth.join(self._folder, "responses")
+        self._repo_folder = os.pth.join(self._folder, "repositories")
     
-    def get(self, url):
+    def get_response(self, url):
         """Get a response for the url."""
-        return Response.from_path(self._folder, url)
+        return Response.from_path(self._response_folder, url)
     
-    def cache(self, response):
+    def cache_response(self, response):
         """Cache a response."""
-        response.to_path(self._folder)
+        response.to_path(self._response_folder)
+
+    def get_repository(self, full_name):
+        """Get a repository for the full name."""
+        return Repository.from_path(self._repo_folder, full_name)
+    
+    def cache_repository(self, repository):
+        """Cache a repository."""
+        repository.to_path(self._repo_folder)
 
 class NoCache:
     """Not caching."""
 
-    def get(self, url):
-        return None
-    
-    def cache(self, response):
+    def get_response(self, *args):
         pass
+    
+    cache_response = get_repository = cache_repository = get_response
