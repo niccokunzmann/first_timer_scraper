@@ -1,6 +1,13 @@
 import sys
-import service
-from bottle import run, get, static_file, request, response
+import tempfile
+import shutil
+import os
+from pprint import pprint
+from bottle import run, get, static_file, request, response, post, redirect
+
+APPLICATION = 'first_timer_scraper'
+ZIP_PATH = "/" + APPLICATION + ".zip"
+HERE = os.path.dirname(__file__)
 
 def todo():
     raise NotImplementedError("This is still under construction.")
@@ -80,19 +87,27 @@ def overview_page():
     - What this is about.
     """
     todo()
-  
-@get("/source")
-def get_source():
+
+@get('/source')
+def get_source_redirect():
     """Get the source code as a zip file."""
-    todo()
+    redirect(ZIP_PATH)
+
+@get(ZIP_PATH)
+def get_source():
+    """Download the source of this application."""
+    # from http://stackoverflow.com/questions/458436/adding-folders-to-a-zip-file-using-python#6511788
+    directory = tempfile.mkdtemp()
+    temp_path = os.path.join(directory, APPLICATION)
+    zip_path = shutil.make_archive(temp_path, "zip", HERE)
+    pprint(locals())
+    return static_file(APPLICATION + ".zip", root=directory)
 
 def main():
-    service.DATA_FOLDER = sys.argv[1]
-    service.SECRETS_FOLDER = sys.argv[2]
-    service.run()
-    run()
+    #service.DATA_FOLDER = sys.argv[1]
+    #service.SECRETS_FOLDER = sys.argv[2]
+    #service.run()
+    run(host="", port=8080, debug=True)
 
 if __name__ == "__main__":
-    
-
-
+    main()
