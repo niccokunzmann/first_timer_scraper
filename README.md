@@ -61,7 +61,7 @@ For each submitted repository
 API
 ---
 
-`ENDING` is either `.html` or `.json`
+`ENDING` is either `.html` or `.json`.
 
 - General
   - `GET /`  
@@ -83,8 +83,8 @@ API
     List all organizations with links to their statuses.
   - `GET /organization/<organization><ENDING>`  
     Get an organization and its status.
-  - `POST /organization/<organization>`  
-    Submit an organization for scraping.
+  - `POST /organization<ENDING>`  
+    Submit an `organization` for scraping.
     This shows an html page with a link to the status of the organization.
 - Repository
   - `GET /repositories<ENDING>`  

@@ -6,6 +6,7 @@ from pprint import pprint
 from bottle import run, get, static_file, request, response, post, redirect
 from .credentials import Credentials, check_login
 from .scraper import Scraper
+from .cache import PathCache
 
 APPLICATION = 'first_timer_scraper'
 ZIP_PATH = "/" + APPLICATION + ".zip"
@@ -26,12 +27,14 @@ def todo():
 def get_static_file(path):
     return static_file(path, root=STATIC_FILES)
 
-@post("/organization/<organization>")
-def add_organization(organization):
+@post("/organization.html")
+def add_organization():
     """Submit an organization for scraping.
     This shows an html page with a link to the status of the organization.
     """
-    todo()
+    organization = request.forms.get('organization')
+    scraper.scrape_organization(organization)
+    return static("added-organization.html")
 
 @get("/organizations.<ending>")
 def get_all_organizations(ending):
@@ -39,7 +42,7 @@ def get_all_organizations(ending):
     todo()
 
 @get("/organization/<organization>.<ending>")
-def get_organization(organization, repository, ending):
+def get_organization(organization, ending):
     """Get an organization and its status.
     """
     todo()
@@ -129,7 +132,7 @@ def get_source():
     return static_file(APPLICATION + ".zip", root=directory)
 
 def main():
-    scraper.save_to(sys.argv[1])
+    scraper.set_cache(PathCache(sys.argv[1]))
     credentials.save_to(sys.argv[2])
     scraper.start()
     run(host="", port=8080, debug=True)
