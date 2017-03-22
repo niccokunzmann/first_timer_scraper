@@ -28,13 +28,20 @@ def get_static_file(path):
     return static_file(path, root=STATIC_FILES)
 
 @post("/organization.html")
-def add_organization():
+def add_organization_html():
     """Submit an organization for scraping.
     This shows an html page with a link to the status of the organization.
     """
     organization = request.forms.get('organization')
     scraper.scrape_organization(organization)
     return static("added-organization.html")
+
+@post("/organization.json")
+def add_organization_json():
+    """Submit an organization for scraping.
+    This shows an html page with a link to the status of the organization.
+    """
+    todo()
 
 @get("/organizations.<ending>")
 def get_all_organizations(ending):
@@ -52,8 +59,17 @@ def get_all_repositories(ending):
     """List all organizations with links to their statuses."""
     todo()
 
-@post("/repository/<organization>/<repository>")
-def add_repository(organization, repository):
+@post("/repository.html")
+def add_repository():
+    """Sumbit a repository for scraping
+    This shows an html page with a link to the status of the repository.
+    """
+    repository = request.forms.get('repository')
+    scraper.scrape_organization(repository)
+    return static("added-repository.html")
+
+@post("/repository.json")
+def add_repository():
     """Sumbit a repository for scraping
     This shows an html page with a link to the status of the repository.
     """

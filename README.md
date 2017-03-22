@@ -91,8 +91,8 @@ API
     List all repositories with links to their statuses.
   - `GET /repository/<organization>/<repository><ENDING>`  
     Get the repository and its status.  
-  - `POST /repository/<organization>/<repository>`  
-    Sumbit a repository for scraping
+  - `POST /repository`  
+    Sumbit a `repository` for scraping
 - User
   - `GET /user<ENDING>`  
     All the users and their statuses.
