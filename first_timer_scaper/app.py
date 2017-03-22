@@ -4,34 +4,43 @@ import shutil
 import os
 from pprint import pprint
 from bottle import run, get, static_file, request, response, post, redirect
+from . import service
 
 APPLICATION = 'first_timer_scraper'
 ZIP_PATH = "/" + APPLICATION + ".zip"
 HERE = os.path.dirname(__file__)
+STATIC_FILES = os.path.join(HERE, "static")
+
+def static(file):
+    return redirect("/static/" + file)
 
 def todo():
     raise NotImplementedError("This is still under construction.")
 
-@post("/repository/<organization>")
-def add_repository(organization):
+@get("/static/<path:path>")
+def get_static_file(path):
+    return static_file(path, root=STATIC_FILES)
+
+@post("/organization/<organization>")
+def add_organization(organization):
     """Submit an organization for scraping.
     This shows an html page with a link to the status of the organization.
     """
     todo()
 
 @get("/organizations.<ending>")
-def get_all_users(ending):
+def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
     todo()
 
-@get("/repository/<organization>.<ending>")
-def get_user(organization, repository, ending):
+@get("/organization/<organization>.<ending>")
+def get_organization(organization, repository, ending):
     """Get an organization and its status.
     """
     todo()
 
 @get("/repositories.<ending>")
-def get_all_users(ending):
+def get_all_repositories(ending):
     """List all organizations with links to their statuses."""
     todo()
 
@@ -43,18 +52,24 @@ def add_repository(organization, repository):
     todo()
 
 @get("/repository/<organization>/<repository>.<ending>")
-def get_user(organization, repository, ending):
+def get_repository(organization, repository, ending):
     """Get the repository and its status.  
     """
     todo()
 
 @post("/auth")
-def add_user(user):
+def add_user():
     """Add `username` and `password` to those usable to scrape github.
     
     They will be tried and removed if invalid.
     """
-    todo()
+    return static("auth-added.html")
+
+@get("/auth")
+def get_user_form():
+    """Show a form to register a new authentication.
+    """
+    return static("add-github-authentication.html")
 
 @post("/user/<user>")
 def add_user(user):

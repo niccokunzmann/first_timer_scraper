@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Add Github Authentication</title>
+  </head>
+  <body>
+    <h1>Add Github Authentication</h1>
+    <p>
+      You can make this scraper faster by adding a
+      <a href="https://github.com">Github</a> username and password.
+      They will be saved here until you
+      <a href="https://github.com/settings/admin">
+        change your password on Github</a>.
+    </p>
+    <form action="/auth" method="post">
+      Github user name:<br/>
+      <input type="text" name="username"><br/>
+      Password:<br/>
+      <input type="password" name="password"><br/>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
