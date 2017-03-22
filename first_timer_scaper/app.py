@@ -4,12 +4,17 @@ import shutil
 import os
 from pprint import pprint
 from bottle import run, get, static_file, request, response, post, redirect
-from . import service
+from .credentials import Credentials, check_login
+from .scraper import Scraper
 
 APPLICATION = 'first_timer_scraper'
 ZIP_PATH = "/" + APPLICATION + ".zip"
 HERE = os.path.dirname(__file__)
 STATIC_FILES = os.path.join(HERE, "static")
+
+credentials = Credentials()
+credentials.add(None) # scrape github slowly without authentication
+scraper = Scraper(credentials)
 
 def static(file):
     return redirect("/static/" + file)
@@ -66,8 +71,8 @@ def add_authentication():
     # http://bottlepy.org/docs/dev/tutorial.html#http-request-methods
     username = request.forms.get('username')
     password = request.forms.get('password')
-    if service.check_login(username, password):
-        service.add_login(username, password)
+    if check_login((username, password)):
+        credentials.add((username, password))
         return static("add-github-authentication-success.html")
     return static("add-github-authentication-failure.html")
 
@@ -121,13 +126,12 @@ def get_source():
     directory = tempfile.mkdtemp()
     temp_path = os.path.join(directory, APPLICATION)
     zip_path = shutil.make_archive(temp_path, "zip", HERE)
-    pprint(locals())
     return static_file(APPLICATION + ".zip", root=directory)
 
 def main():
-    #service.DATA_FOLDER = sys.argv[1]
-    #service.SECRETS_FOLDER = sys.argv[2]
-    #service.run()
+    scraper.save_to(sys.argv[1])
+    credentials.save_to(sys.argv[2])
+    scraper.start()
     run(host="", port=8080, debug=True)
 
 if __name__ == "__main__":
