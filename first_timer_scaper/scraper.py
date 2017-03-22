@@ -47,15 +47,16 @@ def unique_step(parallel):
             with lock:
                 future = requesting.get(args)
                 if not future:
-                    future = self._executor.submit(parallel, *args)
+                    future = executor.submit(parallel, *args)
                     requesting[args] = future
                     @future.add_done_callback
-                    def end_with_result(self, future):
+                    def end_with_result(future):
                         with lock:
                             requesting.pop(args)
             @future.add_done_callback
             def call_with_result(future):
                 function(future.result())
+        return call_function_when_done
     return record_call
 
 class Scraper:

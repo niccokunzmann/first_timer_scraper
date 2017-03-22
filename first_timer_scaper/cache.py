@@ -6,8 +6,8 @@ class PathCache:
 
     def __init__(self, folder):
         self._folder = folder
-        self._response_folder = os.pth.join(self._folder, "responses")
-        self._repo_folder = os.pth.join(self._folder, "repositories")
+        self._response_folder = os.path.join(self._folder, "responses")
+        self._repo_folder = os.path.join(self._folder, "repositories")
     
     def get_response(self, url):
         """Get a response for the url."""
