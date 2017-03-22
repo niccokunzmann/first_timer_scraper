@@ -83,6 +83,14 @@ API
 - `GET /user/<user><ENDING>`  
   Return the status of this github user.
   - what are the first-timer repositories?
+- `GET /user<ENDING>`  
+  All the users and their statuses.
+- `GET /`  
+  Show a description of the project.
+  - Link to this repository#readme.
+  - Link to download the code.
+  - How to contribute.
+  - What this is about.
 
 Further Reading
 ---------------
