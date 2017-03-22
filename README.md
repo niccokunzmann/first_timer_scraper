@@ -64,17 +64,20 @@ API
 `ENDING` is either `.html` or `.json`
 
 - General
-  - `POST /auth`  
-    Add `username` and `password` to those usable to scrape github.
-    They will be tried and removed if invalid.
-  - `GET /source`  
-    Get the source code as a zip file.
   - `GET /`  
     Show a description of the project.
     - Link to this repository#readme.
     - Link to download the code /source.
     - How to contribute.
     - What this is about.
+  - `GET /source`  
+    Get the source code as a zip file.
+- Github Authentication:
+  - `GET /auth`
+    Show a form to register a new authentication.
+  - `POST /auth`  
+    Add `username` and `password` to those usable to scrape github.
+    They will be tried and removed if invalid.
 - Organization
   - `GET /organizations<ENDING>`  
     List all organizations with links to their statuses.
