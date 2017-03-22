@@ -111,6 +111,10 @@ Command Line
 - `DATA_FOLDER` is the folder where the data is stored.
 - `SECRETS_FOLDER` is the folder where the secrets are stored.
 
+Windows:
+
+`py -3.4 -m first_timer_scaper.app data secret`
+
 Further Reading
 ---------------
 
