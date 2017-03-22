@@ -58,15 +58,21 @@ def get_repository(organization, repository, ending):
     todo()
 
 @post("/auth")
-def add_user():
+def add_authentication():
     """Add `username` and `password` to those usable to scrape github.
     
     They will be tried and removed if invalid.
     """
-    return static("auth-added.html")
+    # http://bottlepy.org/docs/dev/tutorial.html#http-request-methods
+    username = request.forms.get('username')
+    password = request.forms.get('password')
+    if service.check_login(username, password):
+        service.add_login(username, password)
+        return static("add-github-authentication-success.html")
+    return static("add-github-authentication-failure.html")
 
 @get("/auth")
-def get_user_form():
+def get_authentication_form():
     """Show a form to register a new authentication.
     """
     return static("add-github-authentication.html")
@@ -101,7 +107,7 @@ def overview_page():
     - How to contribute.
     - What this is about.
     """
-    todo()
+    return static("index.html")
 
 @get('/source')
 def get_source_redirect():
