@@ -9,16 +9,36 @@
       These organizations have been scraped for first timers:
     </p>
     <ul>
-      % for organization in organizations:
-        <li>
-          <a href='{{ organization["urls"]["html"] }}'>{{ organization["name"] }}</a>
-          ({{ len(organization["first_timers"]) }})
-        </li>
+      % keys = list(organizations.keys())
+      % keys.sort()
+      % missing = []
+      % for organization_name in keys:
+        % organization = organizations[organization_name]
+        % if len(organization["first_timers"]) > 0:
+          <li>
+            <a href='{{ organization["urls"]["html"] }}'>{{ organization["name"] }}</a>
+            ({{ len(organization["first_timers"]) }})
+            <a href='{{ organization["urls"]["github_html"] }}'>Github</a>
+          </li>
+        % else:
+        % missing.append(organization)
+        % end
       % end
     </ul>
     <p>
-      <a href="/orgnaizations.json">
-        <pre>GET /orgnaizations.json</pre>
+      Organizations or users without first time contributors:
+    <p>
+    <ul>
+      % for organization in missing:
+        <li>
+          <a href='{{ organization["urls"]["html"] }}'>{{ organization["name"] }}</a>
+          (0)
+          <a href='{{ organization["urls"]["github_html"] }}'>Github</a>
+        </li>
+      % end
+    </ul>
+      <a href="/organizations.json">
+        <pre>GET /organizations.json</pre>
       </a>
     </p>
   </body>

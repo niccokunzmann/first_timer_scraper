@@ -1,5 +1,7 @@
 import time
 from .database import Database
+import copy
+from pprint import pprint
 
 def now():
     """Return the current time in equivalent to github format.
@@ -23,30 +25,29 @@ class Model(Database):
         return self._get_organization_read_only(organization)
     
     def _get_organization_read_only(self, organization):
-        with self:
-            org = self.data.get(organization, {})
+        org = self.data.get(organization, {})
         org.setdefault("repos", {})
         org.setdefault("first_timer_prs", {})
         org.setdefault("last_update_requested", START)
         return org
         
     def _get_repository(self, organization, repository_name):
-        org = self.get_organization(organization)
+        org = self._get_organization(organization)
         org["repos"].setdefault(repository_name, {})
         return self._get_repository_read_only(organization, repository_name)
 
     def _get_repository_read_only(self, organization, repository_name):
-        org = self.get_organization_read_only(organization)
+        org = self._get_organization_read_only(organization)
         repo = org["repos"].get(repository_name, {})
         repo.setdefault("last_update_requested", START)
         repo.setdefault("first_timer_prs", {})
         return repo
         
-    def get_repository_read_only(organization, repository_name):
+    def get_repository_read_only(self, organization, repository_name):
         with self:
             return copy.deepcopy(self._get_repository_read_only(organization, repository_name))
     
-    def get_organization_read_only(organization):
+    def get_organization_read_only(self, organization):
         with self:
             return copy.deepcopy(self._get_organization_read_only(organization))
     
@@ -59,7 +60,6 @@ class Model(Database):
         org_name, repo_name = repository.split("/")
         with self:
             first_timer = self._get_organization(github_user)
-            repo = self._get_repository(org_name, repo_name)
             if repository in first_timer["first_timer_prs"]:
                 if first_timer["first_timer_prs"][repository]["number"] < pull_request_number:
                     # found earlier pull-request
@@ -68,6 +68,7 @@ class Model(Database):
                 "number": pull_request_number,
                 "created_at": pull_request_created_at
             }
+            repo = self._get_repository(org_name, repo_name)
             repo["first_timer_prs"][pull_request_number] = github_user
         
     def update_requested(self, entry_name):

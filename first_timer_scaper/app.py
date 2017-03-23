@@ -61,7 +61,7 @@ def add_organization_json():
 def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
     if ending == "json":
-        return model.get_organizations_data()
+        return api.get_organizations()
     return template("all-organizations.html")
 
 @get("/organization/<organization>.<ending>")

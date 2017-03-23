@@ -2,6 +2,7 @@ import json
 import os
 import threading
 import copy
+import traceback
 
 class Database:
 
@@ -12,7 +13,7 @@ class Database:
     def __init__(self):
         self.__data = self.get_initial_data()
         self.__lock = threading.RLock()
-        self.__current_thread = None
+        self.__current_thread = []
         self.__folder = None
         assert self.file_name, "Set a file_name in before creating databases."
         
@@ -35,7 +36,10 @@ class Database:
         assert self.is_persistent()
         if os.path.exists(self.path):
             with open(self.path) as f:
-                self.__data = json.load(f)
+                try:
+                    self.__data = json.load(f)
+                except ValueError:
+                    pass
 
     def _save(self):
         """Save the credentials."""
@@ -52,13 +56,13 @@ class Database:
         return self.__data
     
     def is_owned(self):
-        return threading.current_thread() is self.__current_thread
+        return self.__current_thread and threading.current_thread() is self.__current_thread[-1]
         
     def __enter__(self):
         self.__lock.acquire()
-        self.__current_thread = threading.current_thread()
+        self.__current_thread.append(threading.current_thread())
         try:
-            if self.is_persistent():
+            if self.is_persistent() and len(self.__current_thread) == 1:
                 self._load()
         except:
             self.__lock.release()
@@ -67,8 +71,9 @@ class Database:
     
     def __exit__(self, error_type, error, traceback):
         try:
-            if self.is_persistent() and error_type is None:
+            if self.is_persistent() and error_type is None and len(self.__current_thread) == 1:
                 self._save()
         finally:
-            self.__current_thread = None
+            popped = self.__current_thread.pop()
             self.__lock.release()
+            assert popped is threading.current_thread(), "inconsistent allocation"
