@@ -13,7 +13,15 @@
     "name": {
       "type": "string",
       "pattern": "^[^/#]+#[0123456789]+$"
+    },
+    "repository_full_name": {
+      "type": "string",
+      "pattern": "^[^/#]+/[^/#]+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
     }
   },
-  "required": ["full_name", "number", "name"]
+  "required": ["full_name", "number", "name", "repository_full_name"]
 }
