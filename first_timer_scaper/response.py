@@ -3,6 +3,7 @@ import json
 from pprint import pprint
 
 def url_to_path(url):
+    url = url.replace("?", "_")
     url_path = url.split("//", 1)[1]
     return os.sep.join(url_path.split("/"))
 

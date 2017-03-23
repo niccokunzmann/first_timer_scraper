@@ -1,6 +1,7 @@
 import os
 import subprocess
 import tempfile
+from collections import namedtuple
 
 def git(*args, **kw):
     try:
@@ -11,6 +12,7 @@ def git(*args, **kw):
         raise
 
 class Repository:
+    """This is a repository on the file system."""
 
     @classmethod
     def from_path(cls, path, full_name):
@@ -38,6 +40,7 @@ class Repository:
         
     def git(self, *args, **kw):
         kw.setdefault("cwd", self._folder)
+        print("in", self._folder, "git", *args)
         return git(*args,**kw)
     
     @property
@@ -51,10 +54,10 @@ class Repository:
         else:
             git("clone", self.clone_url, self._folder)
             
-    def to_path(self, folder):
-        os.makedirs(folder, exist_ok=True)
+    def to_path(self, base_folder):
         org, repo = self._full_name.split("/")
-        folder = os.path.join(folder, org, repo)
+        folder = os.path.join(base_folder, org, repo)
+        os.makedirs(folder, exist_ok=True)
         if folder != self._folder and os.path.exists(self._git_path):
             shutil.move(self._git_path, folder)
         self._folder = folder
@@ -62,3 +65,48 @@ class Repository:
     def __repr__(self):
         return "{}({})".format(self.__class__.__name__, self._full_name)
         
+    def can_have_first_timers(self):
+        return len(self.git("log", "--pretty=format:%ae<%an").splitlines()) > 1
+        
+    @property
+    def pull_requests_url(self):
+        return "https://api.github.com/repos/{}/pulls?state=all".format(self._full_name)
+    
+    
+    commit_attributes = ["hash", "author_name", "author_email", "author_date", "subject"]
+    @property
+    def commits(self):
+        """
+        %H  Commit hash
+            attribute: hash
+        %h  Abbreviated commit hash
+        %T  Tree hash
+        %t  Abbreviated tree hash
+        %P  Parent hashes
+        %p  Abbreviated parent hashes
+        %an Author name
+            attribute: author_name
+        %ae Author email
+            attribute: author_email
+        %ad Author date (format respects the --date=option)
+            attibute: author_date
+        %ar Author date, relative
+        %cn Committer name
+        %ce Committer email
+        %cd Committer date
+        %cr Committer date, relative
+        %s  Subject
+            attribute: subject
+        """
+        logs = []
+        for format in ["%H", "%an", "%ae", "%ad", "%s"]:
+            all_lines = self.git("log", "--pretty=format:" + format)
+            try:
+                all_lines = all_lines.decode()
+            except UnicodeEncodeError:
+                pass
+            all_lines = all_lines.splitlines()
+            logs.append(all_lines)
+        return list(map(lambda t: Commit(*t), zip(*logs)))
+
+Commit = namedtuple("Commit", Repository.commit_attributes)

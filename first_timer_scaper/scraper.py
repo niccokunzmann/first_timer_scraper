@@ -1,15 +1,13 @@
 import os
-from concurrent.futures import ThreadPoolExecutor
+import requests
 import threading
 from .cache import NoCache
-import requests
 from .response import Response
 from .repository import Repository
-import functools
+from .concurrency import unique_step
 #import hanging_threads
 #hanging_threads.start_monitoring()
 
-NUMBER_OF_THREADS = 100
 WAIT_FOR_RETRY_IN_SECONDS = 60
 
 _print = print
@@ -26,47 +24,12 @@ def secure_auth_print(auth):
     else:
         return "<??>"
         
-def unique_step(parallel):
-    """Shorten the call for calling a function after the other is completed.
-    
-        @serial_step
-        def get(self, url):
-            return parallel thing
-        
-        @get(url):
-        def next_step():
-            pass
-    
-    When the arguments to the function are the same, the call can not be
-    done in parallel. It gets executed once and the result is passed two
-    both results.
-    """
-    executor = ThreadPoolExecutor(NUMBER_OF_THREADS)
-    lock = threading.RLock()
-    requesting = {}
-    @functools.wraps(parallel)
-    def record_call(*args):
-        def call_function_when_done(function):
-            with lock:
-                future = requesting.get(args)
-                if not future:
-                    future = executor.submit(parallel, *args)
-                    requesting[args] = future
-                    @future.add_done_callback
-                    def end_with_result(future):
-                        with lock:
-                            requesting.pop(args)
-            @future.add_done_callback
-            def call_with_result(future):
-                function(future.result())
-        return call_function_when_done
-    return record_call
 
 class Scraper:
 
     def __init__(self, credentials):
         self._credentials = credentials
-        self._executor = ThreadPoolExecutor(NUMBER_OF_THREADS)
+
         self._lock = threading.Lock()
         self._cache = NoCache()
         self._requesting_lock = threading.Lock()
@@ -135,18 +98,24 @@ class Scraper:
         
     @unique_step
     def clone(self, full_name):
-        repository = self._cache.get_repository(full_name)
+        with self._lock:
+            repository = self._cache.get_repository(full_name)
         if repository:
             return repository
         repository = Repository(full_name)
-        self._cache.cache_repository(repository)
+        with self._lock:
+            self._cache.cache_repository(repository)
         repository.update()
         return repository
     
     def scrape_repository(self, full_name):
         print("scrape repository", full_name)
         @self.clone(full_name)
-        def done(repo):
-            print("done:", repo)
+        def when_cloned(repo):
+            if repo.can_have_first_timers():
+                commits = repo.commits
+                @self.get_each(repo.pull_requests_url)
+                def retrieved_pull_request(pr):
+                    print("got", pr["html_url"])
             
 __all__ = ["Scraper"]
