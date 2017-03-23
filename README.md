@@ -80,7 +80,45 @@ API
     They will be tried and removed if invalid.
 - Organization
   - `GET /organizations<ENDING>`  
-    List all organizations with links to their statuses.
+    List all organizations with links to their statuses.  
+    ```
+    [
+      {
+        "name":"loklak",
+        "repositories" : [
+          "name": "loklak/loklak_server",
+          "urls": {
+            "html": "/repository/loklak/loklak_server.html",
+            "json": "/repository/loklak/loklak_server.json",
+            "github_html": "https://github.com/loklak/loklak_server",
+            "github_api": "https://api.github.com/repos/loklak/loklak_server",
+          }
+        ],
+        "urls": {
+          "html": "/organization/loklak.html",
+          "json": "/organization/loklak.json",
+          "github_html": "https://github.com/loklak",
+          "github_api": "https://api.github.com/repos/loklak",
+        },
+        "last_update": "Thu Mar 23 09:22:06 2017",
+        "first_timers": [
+          {
+            "name": "contributor1",
+            "urls": {
+              "html": "/user/contributor1.html",
+              "json": "/user/contributor1.json",
+              "github_html": "https://github.com/contributor1",
+              "github_api": "https://api.github.com/users/contributor1",
+            },
+            "pull_request": {
+              "repository": "loklak/loklak_server",
+              "organization": "loklak"
+            }
+          }
+        ]
+      }
+    ]
+    ```
   - `GET /organization/<organization><ENDING>`  
     Get an organization and its status.
   - `POST /organization<ENDING>`  
@@ -114,6 +152,38 @@ Command Line
 Windows:
 
 `py -3.4 -m first_timer_scaper.app data secret`
+
+Data Model
+----------
+
+The data model describes what is saved when scraped.
+
+```
+{
+  "loklak": {
+    "repos": {
+      "loklak_server": {
+        "first_timer_prs": {
+          112: "contributor1"
+        },
+        "last_update_requested": "2011-01-26T19:01:12Z"
+      }
+    },
+    "last_update_requested": "2011-01-26T19:01:12Z",
+    "first_timer_prs":{}
+  },
+  "contributor1": {
+    "first_timer_prs": {
+      "loklak/loklak_server": {
+        "created_at" : "2011-01-26T19:01:12Z"
+        "number": 112 // lowest number wins
+      }
+    },
+    "last_update_requested": "2011-01-26T19:01:12Z",
+    "repos": {}
+  }
+}
+```
 
 Further Reading
 ---------------

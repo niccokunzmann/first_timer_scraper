@@ -3,22 +3,32 @@ import tempfile
 import shutil
 import os
 from pprint import pprint
-from bottle import run, get, static_file, request, response, post, redirect
+from bottle import run, get, static_file, request, response, post, redirect, SimpleTemplate
 from .credentials import Credentials, check_login
 from .scraper import Scraper
 from .cache import PathCache
+from .model import Model
 
 APPLICATION = 'first_timer_scraper'
 ZIP_PATH = "/" + APPLICATION + ".zip"
 HERE = os.path.dirname(__file__)
 STATIC_FILES = os.path.join(HERE, "static")
+TEMPLATE_FOLDER = os.path.join(HERE, "templates")
 
 credentials = Credentials()
+model = Model()
 credentials.add(None) # scrape github slowly without authentication
-scraper = Scraper(credentials)
+scraper = Scraper(credentials, model)
 
 def static(file):
     return redirect("/static/" + file)
+
+def template(name):
+    # http://bottlepy.org/docs/dev/stpl.html
+    path = os.path.join(TEMPLATE_FOLDER, name)
+    with open(path) as f:
+        template = SimpleTemplate(f.read())
+    return template.render(model=model)
 
 def todo():
     raise NotImplementedError("This is still under construction.")
@@ -34,7 +44,7 @@ def add_organization_html():
     """
     organization = request.forms.get('organization')
     scraper.scrape_organization(organization)
-    return static("added-organization.html")
+    return template("added-organization.html", organization=organization)
 
 @post("/organization.json")
 def add_organization_json():
@@ -150,6 +160,7 @@ def get_source():
 def main():
     scraper.set_cache(PathCache(sys.argv[1]))
     credentials.save_to(sys.argv[2])
+    model.save_to(sys.argv[2])
     scraper.start()
     run(host="", port=8080, debug=True)
 

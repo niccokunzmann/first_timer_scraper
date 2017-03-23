@@ -23,13 +23,12 @@ def secure_auth_print(auth):
         return auth[0]
     else:
         return "<??>"
-        
 
 class Scraper:
 
-    def __init__(self, credentials):
+    def __init__(self, credentials, model):
         self._credentials = credentials
-
+        self._model = model
         self._lock = threading.Lock()
         self._cache = NoCache()
         self._requesting_lock = threading.Lock()
@@ -81,6 +80,7 @@ class Scraper:
     def scrape_organization(self, organization):
         """Add all repositories from the organization."""
         print("scrape organization", organization)
+        self._model.update_requested(organization)
         @self.get_each("https://api.github.com/orgs/{}/repos".format(organization))
         def add_repository(repository):
             self.scrape_repository(repository["full_name"])
@@ -110,6 +110,7 @@ class Scraper:
     
     def scrape_repository(self, full_name):
         print("scrape repository", full_name)
+        self._model.update_requested(full_name)
         @self.clone(full_name)
         def when_cloned(repo):
             if repo.can_have_first_timers():
@@ -120,5 +121,8 @@ class Scraper:
                     head_commit = pr["head"]["sha"]
                     if repo.is_first_timer_commit(head_commit):
                         print("first timer:", pr["html_url"])
-            
+                        github_user = pr["head"]["user"]["login"]
+                        self._model.add_first_timer_contribution(
+                            github_user, full_name, pr["number"],
+                            pr["created_at"])
 __all__ = ["Scraper"]
