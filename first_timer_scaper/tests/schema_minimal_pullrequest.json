@@ -23,5 +23,5 @@
       "format": "date-time"
     }
   },
-  "required": ["full_name", "number", "name", "repository_full_name"]
+  "required": ["full_name", "number", "name", "repository_full_name", "created_at"]
 }

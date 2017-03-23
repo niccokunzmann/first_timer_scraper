@@ -6,7 +6,9 @@
     "github_html": "https://github.com/loklak/loklak_server/pulls/122",
     "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122"
   },
-  "last_update": "2011-01-33T19:01:12Z",
+  "last_update": "2011-01-12T19:01:12Z",
   "full_name": "loklak/loklak_server#122",
-  "number": 122
+  "number": 122,
+  "repository_full_name": "loklakoklak_server",
+  "created_at": "2015-01-26T19:01:12Z"
 }
