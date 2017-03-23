@@ -114,18 +114,18 @@ API
               "github_html": "https://github.com/contributor1",
               "github_api": "https://api.github.com/users/contributor1",
             },
-            "pull_requests_in_organization": {
-              "loklak/loklak_server#122": {
-                "repository_name": "loklak_server",
-                "full_name": "loklak/loklak_server#122",
-                "number": 122
-                "created_at": "2011-01-26T19:01:12Z",
-                "urls": {
-                  "html": "https://github.com/loklak/loklak_server/pulls/122",
-                  "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-                  "github_html": "https://github.com/loklak/loklak_server/pulls/122",
-                  "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-                }
+          },
+          "pull_requests_in_organization": {
+            "loklak/loklak_server#122": {
+              "repository_name": "loklak_server",
+              "full_name": "loklak/loklak_server#122",
+              "number": 122
+              "created_at": "2011-01-26T19:01:12Z",
+              "urls": {
+                "html": "https://github.com/loklak/loklak_server/pulls/122",
+                "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
+                "github_html": "https://github.com/loklak/loklak_server/pulls/122",
+                "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
               }
             }
           }
