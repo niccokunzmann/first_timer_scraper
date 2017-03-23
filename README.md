@@ -141,12 +141,50 @@ API
 - Repository
   - `GET /repositories<ENDING>`  
     List all repositories with links to their statuses.
+    See below for the content of the list.
   - `GET /repository/<organization>/<repository><ENDING>`  
     Get the repository and its status.  
+    ```
+    {
+      "name": "loklak_server",
+      "full_name": "loklak/loklak_server"
+      "urls": {
+        "html": "/repository/loklak/loklak_server.html",
+        "json": "/repository/loklak/loklak_server.json",
+        "github_html": "https://github.com/loklak/loklak_server",
+        "github_api": "https://api.github.com/repos/loklak/loklak_server",
+      }, 
+      "first_timers" : {
+        "contributor1": {
+          "pull_request": "loklak/loklak_server#122"
+          "name": "contributor1",
+          "urls": {
+            "html": "/user/contributor1.html",
+            "json": "/user/contributor1.json",
+            "github_html": "https://github.com/contributor1",
+            "github_api": "https://api.github.com/users/contributor1",
+          },
+        }
+      },
+      "first_timer_pull_requests": {
+        "loklak/loklak_server#122" : {
+          "repository_name": "loklak_server",
+          "full_name": "loklak/loklak_server#122",
+          "number": 122
+          "created_at": "2011-01-26T19:01:12Z",
+          "urls": {
+            "github_html": "https://github.com/loklak/loklak_server/pulls/122",
+            "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
+          },
+          "author": "contributor1"
+        }
+      }
+    }
+    ```
   - `POST /repository`  
     Sumbit a `repository` for scraping
 - User
-  - `GET /user<ENDING>`  
+  - `GET /users<ENDING>`  
     All the users and their statuses.
   - `GET /user/<user><ENDING>`  
     Return the status of this github user.
