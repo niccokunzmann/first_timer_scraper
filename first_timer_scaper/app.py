@@ -8,6 +8,7 @@ from .credentials import Credentials, check_login
 from .scraper import Scraper
 from .cache import PathCache
 from .model import Model
+from .api import Api
 
 APPLICATION = 'first_timer_scraper'
 ZIP_PATH = "/" + APPLICATION + ".zip"
@@ -28,7 +29,7 @@ def template(name, **kw):
     path = os.path.join(TEMPLATE_FOLDER, name)
     with open(path) as f:
         template = SimpleTemplate(f.read())
-    return template.render(model=model, **kw)
+    return template.render(api=Api(model), **kw)
 
 def todo():
     raise NotImplementedError("This is still under construction.")
@@ -51,12 +52,16 @@ def add_organization_json():
     """Submit an organization for scraping.
     This shows an html page with a link to the status of the organization.
     """
-    todo()
+    organization = request.forms.get('organization')
+    scraper.scrape_organization(organization)
+    return {"status": "ok"}
 
 @get("/organizations.<ending>")
 def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
-    todo()
+    if ending == "json":
+        return model.get_organizations_data()
+    return template("all-organizations.html")
 
 @get("/organization/<organization>.<ending>")
 def get_organization(organization, ending):

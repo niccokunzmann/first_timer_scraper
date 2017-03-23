@@ -11,25 +11,44 @@ def now():
 START = now()
 
 class Model(Database):
+
+    # all starting with _ are internal, need a `with self:`
+    # all without underscode do not need a `with self:`
     
     file_name = "model.json"
     get_initial_data = dict
     
-    def _prepare_organization(self, organization):
+    def _get_organization(self, organization):
         self.data.setdefault(organization, {})
-        org = self.data[organization]
+        return self._get_organization_read_only(organization)
+    
+    def _get_organization_read_only(self, organization):
+        with self:
+            org = self.data.get(organization, {})
         org.setdefault("repos", {})
         org.setdefault("first_timer_prs", {})
         org.setdefault("last_update_requested", START)
         return org
         
-    def _prepare_repository(self, organization, repository_name):
-        org = self._prepare_organization(organization)
+    def _get_repository(self, organization, repository_name):
+        org = self.get_organization(organization)
         org["repos"].setdefault(repository_name, {})
-        repo = org["repos"][repository_name]
+        return self._get_repository_read_only(organization, repository_name)
+
+    def _get_repository_read_only(self, organization, repository_name):
+        org = self.get_organization_read_only(organization)
+        repo = org["repos"].get(repository_name, {})
         repo.setdefault("last_update_requested", START)
         repo.setdefault("first_timer_prs", {})
         return repo
+        
+    def get_repository_read_only(organization, repository_name):
+        with self:
+            return copy.deepcopy(self._get_repository_read_only(organization, repository_name))
+    
+    def get_organization_read_only(organization):
+        with self:
+            return copy.deepcopy(self._get_organization_read_only(organization))
     
     def add_first_timer_contribution(self, github_user, repository,
                                      pull_request_number,
@@ -39,8 +58,8 @@ class Model(Database):
         assert isinstance(pull_request_number, int)
         org_name, repo_name = repository.split("/")
         with self:
-            first_timer = self._prepare_organization(github_user)
-            repo = self._prepare_repository(org_name, repo_name)
+            first_timer = self._get_organization(github_user)
+            repo = self._get_repository(org_name, repo_name)
             if repository in first_timer["first_timer_prs"]:
                 if first_timer["first_timer_prs"][repository]["number"] < pull_request_number:
                     # found earlier pull-request
@@ -56,8 +75,7 @@ class Model(Database):
         with self:
             if "/" in entry_name:
                 org, repo = entry_name.split("/")
-                to_update = self._prepare_repository(org, repo)
+                to_update = self._get_repository(org, repo)
             else:
-                to_update = self._prepare_organization(entry_name)
+                to_update = self._get_organization(entry_name)
             to_update["last_update_requested"] = now()
-                
