@@ -117,5 +117,8 @@ class Scraper:
                 @self.get_each(repo.pull_requests_url)
                 def retrieved_pull_request(pr):
                     print("got", pr["html_url"])
+                    head_commit = pr["head"]["sha"]
+                    if repo.is_first_timer_commit(head_commit):
+                        print("first timer:", pr["html_url"])
             
 __all__ = ["Scraper"]
