@@ -6,7 +6,8 @@ import copy
 class Database:
 
     file_name = None
-    get_initial_data = "change the get_initial_data_attibute"
+    def get_initial_data(self):
+        return "change the get_initial_data attribute"
     
     def __init__(self):
         self.__data = self.get_initial_data()

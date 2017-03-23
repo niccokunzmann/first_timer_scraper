@@ -23,12 +23,12 @@ scraper = Scraper(credentials, model)
 def static(file):
     return redirect("/static/" + file)
 
-def template(name):
+def template(name, **kw):
     # http://bottlepy.org/docs/dev/stpl.html
     path = os.path.join(TEMPLATE_FOLDER, name)
     with open(path) as f:
         template = SimpleTemplate(f.read())
-    return template.render(model=model)
+    return template.render(model=model, **kw)
 
 def todo():
     raise NotImplementedError("This is still under construction.")
@@ -76,7 +76,7 @@ def add_repository():
     """
     repository = request.forms.get('repository')
     scraper.scrape_repository(repository)
-    return static("added-repository.html")
+    return template("added-repository.html", repository=repository)
 
 @post("/repository.json")
 def add_repository():

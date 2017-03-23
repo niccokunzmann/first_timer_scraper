@@ -1,7 +1,7 @@
 import time
 from .database import Database
 
-def now(self):
+def now():
     """Return the current time in equivalent to github format.
     
     This is Greenwith Mean Time (UTC).
@@ -13,7 +13,7 @@ START = now()
 class Model(Database):
     
     file_name = "model.json"
-    get_inital_data = dict
+    get_initial_data = dict
     
     def _prepare_organization(self, organization):
         self.data.setdefault(organization, {})
@@ -29,19 +29,20 @@ class Model(Database):
         repo = org["repos"][repository_name]
         repo.setdefault("last_update_requested", START)
         repo.setdefault("first_timer_prs", {})
+        return repo
     
     def add_first_timer_contribution(self, github_user, repository,
                                      pull_request_number,
                                      pull_request_created_at):
         assert github_user.count("/") == 0
         assert repository.count("/") == 1
-        assert insinstance(pull_request_number, int)
+        assert isinstance(pull_request_number, int)
         org_name, repo_name = repository.split("/")
         with self:
             first_timer = self._prepare_organization(github_user)
             repo = self._prepare_repository(org_name, repo_name)
             if repository in first_timer["first_timer_prs"]:
-                if first_timer["first_timer_prs"][repository][number] < pull_request_number:
+                if first_timer["first_timer_prs"][repository]["number"] < pull_request_number:
                     # found earlier pull-request
                     return
             first_timer["first_timer_prs"][repository] = {
