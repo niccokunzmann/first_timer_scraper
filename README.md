@@ -82,27 +82,31 @@ API
   - `GET /organizations<ENDING>`  
     List all organizations with links to their statuses.  
     ```
-    [
-      {
-        "name":"loklak",
-        "repositories" : [
-          "name": "loklak/loklak_server",
-          "urls": {
-            "html": "/repository/loklak/loklak_server.html",
-            "json": "/repository/loklak/loklak_server.json",
-            "github_html": "https://github.com/loklak/loklak_server",
-            "github_api": "https://api.github.com/repos/loklak/loklak_server",
+    {
+      "loklak": {
+        "name": "loklak"
+        "repositories" : {
+          "loklak_server": {
+            "name": "loklak_server",
+            "full_name": "loklak/loklak_server"
+            "urls": {
+              "html": "/repository/loklak/loklak_server.html",
+              "json": "/repository/loklak/loklak_server.json",
+              "github_html": "https://github.com/loklak/loklak_server",
+              "github_api": "https://api.github.com/repos/loklak/loklak_server",
+            }
           }
-        ],
+        },
         "urls": {
           "html": "/organization/loklak.html",
           "json": "/organization/loklak.json",
           "github_html": "https://github.com/loklak",
-          "github_api": "https://api.github.com/repos/loklak",
+          "github_api": "https://api.github.com/orgs/loklak",
         },
-        "last_update": "Thu Mar 23 09:22:06 2017",
-        "first_timers": [
-          {
+        "last_update": "2011-01-26T19:01:12Z",
+        "number_of_first_timers": 1,
+        "first_timers": {
+          "contributor1": {
             "name": "contributor1",
             "urls": {
               "html": "/user/contributor1.html",
@@ -110,17 +114,27 @@ API
               "github_html": "https://github.com/contributor1",
               "github_api": "https://api.github.com/users/contributor1",
             },
-            "pull_request": {
-              "repository": "loklak/loklak_server",
-              "organization": "loklak"
+            "pull_requests_in_organization": {
+              "loklak/loklak_server#122": {
+                "repository_name": "loklak_server",
+                "full_name": "loklak/loklak_server#122",
+                "number": 122
+                "created_at": "2011-01-26T19:01:12Z",
+                "urls": {
+                  "github_html": "https://github.com/loklak/loklak_server/pulls/122",
+                  "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
+                }
+              }
             }
           }
-        ]
+        }
       }
-    ]
+    }
     ```
+    Users may be listed among them.
   - `GET /organization/<organization><ENDING>`  
     Get an organization and its status.
+    Same as the element of `/organizations.json`
   - `POST /organization<ENDING>`  
     Submit an `organization` for scraping.
     This shows an html page with a link to the status of the organization.
