@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "format" : "minimal",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "pattern": "^[^/#]+/[^/#]+$"
+    }
+  },
+  "required": ["full_name"]
+}
