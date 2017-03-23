@@ -1,0 +1,27 @@
+{
+  "name": "loklak",
+  "urls": {
+    "html": "https://github.com/loklak/loklak_server/pulls/122",
+    "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
+    "github_html": "https://github.com/loklak/loklak_server/pulls/122",
+    "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122"
+  },
+  "last_update": "2011-01-26T19:01:12Z",
+  "number_of_first_timers": 0,
+  "first_timers": {
+    "contributor1": {
+      "name": "contributor1#123",
+      "urls": {
+        "html": "/user/contributor1.html",
+        "json": "/user/contributor1.json",
+        "github_html": "https://github.com/contributor1",
+        "github_api": "https://api.github.com/users/contributor1"
+      },
+      "last_update": "2011-01-26T19:01:12Z"
+    }
+  },
+  "pull_requests_in_organization": {},
+  "number_of_pull_requests_in_organization":0,
+  "repositories": {},
+  "number_of_repositories": 0
+}
