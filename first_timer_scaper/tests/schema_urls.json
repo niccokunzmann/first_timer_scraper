@@ -1,0 +1,10 @@
+{
+    "type": "object",
+    "properties": {
+        "html": { "type" : "string"},
+        "json": { "type" : "string"},
+        "github_html": { "type" : "string"},
+        "github_api": { "type" : "string" }
+    },
+    "required": ["html", "json", "github_html", "github_api"]
+}

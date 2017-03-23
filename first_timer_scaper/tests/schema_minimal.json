@@ -1,0 +1,9 @@
+{
+    "type" : "object",
+    "properties" : {
+        "urls" : "urls",
+        "name" : "name",
+        "last_update" : "date-time"
+     },
+     "required": ["urls", "name", "last_update"]
+}

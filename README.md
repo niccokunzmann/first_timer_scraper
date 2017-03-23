@@ -121,6 +121,8 @@ API
                 "number": 122
                 "created_at": "2011-01-26T19:01:12Z",
                 "urls": {
+                  "html": "https://github.com/loklak/loklak_server/pulls/122",
+                  "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
                   "github_html": "https://github.com/loklak/loklak_server/pulls/122",
                   "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
                 }
@@ -166,13 +168,15 @@ API
           },
         }
       },
+      "number_of_first_timer_pull_requests": 1,
       "first_timer_pull_requests": {
         "loklak/loklak_server#122" : {
-          "repository_name": "loklak_server",
           "full_name": "loklak/loklak_server#122",
           "number": 122
           "created_at": "2011-01-26T19:01:12Z",
           "urls": {
+            "html": "https://github.com/loklak/loklak_server/pulls/122",
+            "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
             "github_html": "https://github.com/loklak/loklak_server/pulls/122",
             "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
           },
@@ -186,12 +190,84 @@ API
 - User
   - `GET /users<ENDING>`  
     All the users and their statuses.
+    See the below for the content of the list.
   - `GET /user/<user><ENDING>`  
     Return the status of this github user.
     - what are the first-timer repositories?
+    ```
+    {
+      "name": "contributor1",
+      "urls": {
+        "html": "/user/contributor1.html",
+        "json": "/user/contributor1.json",
+        "github_html": "https://github.com/contributor1",
+        "github_api": "https://api.github.com/users/contributor1",
+      },
+      "number_of_first_timer_pull_requests": 1,
+      "first_timer_pull_requests": {
+        "loklak/loklak_server#122" : {
+          "repository": {
+            "name": "loklak_server",
+            "full_name": "loklak/loklak_server"
+            "urls": {
+              "html": "/repository/loklak/loklak_server.html",
+              "json": "/repository/loklak/loklak_server.json",
+              "github_html": "https://github.com/loklak/loklak_server",
+              "github_api": "https://api.github.com/repos/loklak/loklak_server",
+            }
+          },
+          "name": "loklak_server#122",
+          "full_name": "loklak/loklak_server#122",
+          "number": 122
+          "created_at": "2011-01-26T19:01:12Z",
+          "urls": {
+            "html": "https://github.com/loklak/loklak_server/pulls/122",
+            "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
+            "github_html": "https://github.com/loklak/loklak_server/pulls/122",
+            "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
+          }
+        }
+      }
+    }
+    ```
   - `POST /user/<user>`  
     Trace back the user's repositories to their origins.
     Submit all found organizations.
+- Issues
+  - TODO: do we need an issue endpoint?
+  
+### Minimal definitions
+
+When objects are defined, they contain minimal definitions.
+They can be used to infer the most important data and find the full data.
+E.g. `repository["urls"]["json"]` always points to the repository endpoint.
+
+`repository`, `user`, `organization` and `issue` have this in common:
+```
+{
+  "name": "<name>",
+  "urls": {
+    "html": "<html_url>",
+    "json": "<json_url>",
+    "github_html": "<github_html_url>",
+    "github_api": "<github_json_url>",
+  },
+  "last_update": "<start_time>",
+  }
+}
+```
+- `last_update_time` times are given like this:
+  `2011-01-26T19:01:12Z` in UTC.
+  You can parse it with
+  `time.strptime("2011-01-26T19:01:12Z", "%Y-%m-%dT%H:%M:%SZ")`
+
+
+- Additionally `repository`, `issue` always define
+  ```
+  {
+    "full_name": "<full_name>"
+  }
+  ```
 
 Command Line
 ------------

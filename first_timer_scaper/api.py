@@ -76,5 +76,7 @@ class Api:
 
     def get_pull_urls(self, org, repo, number):
         return {
+            "html": "https://github.com/{}/{}/pull/{}".format(org, repo, number),
+            "json": "https://api.github.com/repos/{}/{}/pulls/{}".format(org, repo, number),
             "github_html": "https://github.com/{}/{}/pull/{}".format(org, repo, number),
             "github_api": "https://api.github.com/repos/{}/{}/pulls/{}".format(org, repo, number)}
