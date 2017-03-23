@@ -1,0 +1,25 @@
+% organizations = api.get_organizations()
+<html>
+  <head>
+    <title>{{ len(organizations) }} Organizations</title>
+  </head>
+  <body>
+    <h1>{{ len(organizations) }} Organizations</h1>
+    <p>
+      These organizations have been scraped for first timers:
+    </p>
+    <ul>
+      % for organization in organizations:
+        <li>
+          <a href='{{ organization["urls"]["html"] }}'>{{ organization["name"] }}</a>
+          ({{ len(organization["first_timers"]) }})
+        </li>
+      % end
+    </ul>
+    <p>
+      <a href="/orgnaizations.json">
+        <pre>GET /orgnaizations.json</pre>
+      </a>
+    </p>
+  </body>
+</html>

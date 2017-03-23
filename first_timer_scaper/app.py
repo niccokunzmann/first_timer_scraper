@@ -20,6 +20,7 @@ credentials = Credentials()
 model = Model()
 credentials.add(None) # scrape github slowly without authentication
 scraper = Scraper(credentials, model)
+api = Api(model)
 
 def static(file):
     return redirect("/static/" + file)
@@ -29,7 +30,7 @@ def template(name, **kw):
     path = os.path.join(TEMPLATE_FOLDER, name)
     with open(path) as f:
         template = SimpleTemplate(f.read())
-    return template.render(api=Api(model), **kw)
+    return template.render(api=api, **kw)
 
 def todo():
     raise NotImplementedError("This is still under construction.")
@@ -54,7 +55,7 @@ def add_organization_json():
     """
     organization = request.forms.get('organization')
     scraper.scrape_organization(organization)
-    return {"status": "ok"}
+    return {"status": "ok", "urls": api.get_org_urls(organization)}
 
 @get("/organizations.<ending>")
 def get_all_organizations(ending):
