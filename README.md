@@ -178,7 +178,7 @@ The data model describes what is saved when scraped.
     "repos": {
       "loklak_server": {
         "first_timer_prs": {
-          112: "contributor1"
+          "112": "contributor1"
         },
         "last_update_requested": "2011-01-26T19:01:12Z"
       }
