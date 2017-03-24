@@ -7,9 +7,9 @@
     "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122"
   },
   "last_update": "2011-01-26T19:01:12Z",
-  "number_of_first_timers": 1,
+  "number_of_first_timers": 0,
   "first_timers": {
-    "contributor1": {
+    "contributor1/asd": {
       "name": "contributor1",
       "urls": {
         "html": "/user/contributor1.html",
