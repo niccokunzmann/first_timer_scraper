@@ -102,45 +102,6 @@ API
     [schema][repository-schema]
     [example responses][repository-examples]  
     Get the repository and its status.  
-    ```
-    {
-      "name": "loklak_server",
-      "full_name": "loklak/loklak_server"
-      "urls": {
-        "html": "/repository/loklak/loklak_server.html",
-        "json": "/repository/loklak/loklak_server.json",
-        "github_html": "https://github.com/loklak/loklak_server",
-        "github_api": "https://api.github.com/repos/loklak/loklak_server",
-      }, 
-      "first_timers" : {
-        "contributor1": {
-          "pull_request": "loklak/loklak_server#122"
-          "name": "contributor1",
-          "urls": {
-            "html": "/user/contributor1.html",
-            "json": "/user/contributor1.json",
-            "github_html": "https://github.com/contributor1",
-            "github_api": "https://api.github.com/users/contributor1",
-          },
-        }
-      },
-      "number_of_first_timer_pull_requests": 1,
-      "first_timer_pull_requests": {
-        "loklak/loklak_server#122" : {
-          "full_name": "loklak/loklak_server#122",
-          "number": 122
-          "created_at": "2011-01-26T19:01:12Z",
-          "urls": {
-            "html": "https://github.com/loklak/loklak_server/pulls/122",
-            "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-            "github_html": "https://github.com/loklak/loklak_server/pulls/122",
-            "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-          },
-          "author": "contributor1"
-        }
-      }
-    }
-    ```
   - `POST /repository`  
     Sumbit a `repository` for scraping
 - User
@@ -148,46 +109,6 @@ API
     Same as `GET /organizations<ENDING>`.
   - `GET /user/<user><ENDING>`  
     Same as `GET /organizations<ENDING>`.
-    [schema][user-schema]
-    [example responses][user-examples]  
-    Return the status of this github user.
-    - what are the first-timer repositories?
-    ```
-    {
-      "name": "contributor1",
-      "urls": {
-        "html": "/user/contributor1.html",
-        "json": "/user/contributor1.json",
-        "github_html": "https://github.com/contributor1",
-        "github_api": "https://api.github.com/users/contributor1",
-      },
-      "number_of_first_timer_pull_requests": 1,
-      "first_timer_pull_requests": {
-        "loklak/loklak_server#122" : {
-          "repository": {
-            "name": "loklak_server",
-            "full_name": "loklak/loklak_server"
-            "urls": {
-              "html": "/repository/loklak/loklak_server.html",
-              "json": "/repository/loklak/loklak_server.json",
-              "github_html": "https://github.com/loklak/loklak_server",
-              "github_api": "https://api.github.com/repos/loklak/loklak_server",
-            }
-          },
-          "name": "loklak_server#122",
-          "full_name": "loklak/loklak_server#122",
-          "number": 122
-          "created_at": "2011-01-26T19:01:12Z",
-          "urls": {
-            "html": "https://github.com/loklak/loklak_server/pulls/122",
-            "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-            "github_html": "https://github.com/loklak/loklak_server/pulls/122",
-            "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-          }
-        }
-      }
-    }
-    ```
   - `POST /user/<user>`  
     Trace back the user's repositories to their origins.
     Submit all found organizations.
@@ -198,10 +119,6 @@ API
 [organizations-examples]: first_timer_scaper/tests/tests/organizations/works
 [organization-schema]: first_timer_scaper/tests/schemas/organization.json
 [organization-examples]: first_timer_scaper/tests/tests/organization/works
-[users-schema]: first_timer_scaper/tests/schemas/users.json
-[users-examples]: first_timer_scaper/tests/tests/users/works
-[user-schema]: first_timer_scaper/tests/schemas/user.json
-[user-examples]: first_timer_scaper/tests/tests/user/works
 [repositories-schema]: first_timer_scaper/tests/schemas/repositories.json
 [repositories-examples]: first_timer_scaper/tests/tests/repositories/works
 [repository-schema]: first_timer_scaper/tests/schemas/repository.json
