@@ -108,7 +108,7 @@ API
   - `GET /users<ENDING>`  
     Same as `GET /organizations<ENDING>`.
   - `GET /user/<user><ENDING>`  
-    Same as `GET /organizations<ENDING>`.
+    Same as `GET /organization/<user><ENDING>`.
   - `POST /user/<user>`  
     Trace back the user's repositories to their origins.
     Submit all found organizations.
