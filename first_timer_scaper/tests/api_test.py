@@ -1,7 +1,8 @@
-import jsonschema
+#!/usr/bin/python3
 import os
 import json
 import sys
+from pprint import pprint
 
 if len(sys.argv) == 1:
     def choose_schema(schema):
@@ -11,11 +12,18 @@ else:
     def choose_schema(schema):
         return schema in valid_schemas
 
-HERE = os.path.dirname(__file__)
-files = os.listdir(HERE)
-files.sort()
+HERE = os.path.dirname(__file__) or "."
+SCHEMAS = os.path.join(HERE, "schemas")
+TESTS = os.path.join(HERE, "tests")
+schemas = {os.path.splitext(file)[0] : os.path.join(SCHEMAS, file)
+           for file in os.listdir(SCHEMAS)}
 
-checker = jsonschema.FormatChecker(("date-time",))
+try:
+    import jsonschema
+    checker = jsonschema.FormatChecker(("date-time",))
+except:
+    print("You may want to install the packages mentioned in requirements.txt.")
+    raise
 
 def schema_works(schema, instance):
     jsonschema.validate(instance, schema, format_checker=checker)
@@ -34,6 +42,12 @@ def load_json_from_file(file_name):
     except ValueError:
         print(file_name)
         raise
+        
+def test_files(name, case):
+    dir = os.path.join(TESTS, name, case)
+    return [os.path.join(dirpath, file)
+            for dirpath, dirnames, filenames in os.walk(dir)
+            for file in filenames]
 
 def test_schema(name, schema, message):
     """Test a schema against all files starting with `name`
@@ -41,33 +55,26 @@ def test_schema(name, schema, message):
     - name_works.json files are expected to be valid
     - name_fails.json files are expected to be invalid
     """
-    tested_works = False
-    tested_fails = False
-    for file in files:
-        if file.startswith("schema_" + name + "_works"):
-            validate = schema_works
-            tested_works = True
-        elif file.startswith("schema_" + name + "_fails"):
-            validate = schema_fails
-            tested_fails = True
-        else:
-            continue
-        instance = load_json_from_file(file)
-        new_schema_calls()
-        try:
-            validate(schema, instance)
-        except:
-            print("file:", file)
-            print("schema:", schema)
-            print("instance:", instance)
-            print("checkers:", checker.checkers)
-            for call in schema_calls:
-                print(*call)
-            raise
-        else:
-            print(message, "| ok", file)
-    assert tested_fails, "schema " + name + " did not test invalid example"
-    assert tested_fails, "schema " + name + " did not test valid example"
+    works = test_files(name, "works")
+    fails = test_files(name, "fails")
+    assert works, "schema " + name + " should test a valid example"
+    assert fails, "schema " + name + " should test an invalid example"
+    for validate, files in [(schema_works, works), (schema_fails, fails)]:
+        for file in files:
+            instance = load_json_from_file(file)
+            new_schema_calls()
+            try:
+                validate(schema, instance)
+            except:
+                print("file:", file)
+                print("schema:", schema)
+                print("instance:", instance)
+                print("checkers:", checker.checkers)
+                for call in schema_calls:
+                    print(*call)
+                raise
+            else:
+                print(message, "| ok", file)
 
 #
 # Load all `schema_xxx.json` files:
@@ -93,17 +100,17 @@ def execute_tests(name, schema):
     test_schema(name, schema, name + " as schema")
     test_schema(name, {"format" : name}, name + " as format")
 
-SCHEMA_PREFIX = "schema_"
-for action in [define_schema, execute_tests]:
-    for file in files:
-        if file.startswith(SCHEMA_PREFIX) and not "_fails" in file and not "_works" in file:
-            name = os.path.splitext(file)[0][len(SCHEMA_PREFIX):]
-            schema = load_json_from_file(file)
-            if choose_schema(name) or action == define_schema:
-                action(name, schema)
-            else:
-                print("SKIP", name)
-        del file
+
+for name, path in schemas.items():
+    schema = load_json_from_file(path)
+    define_schema(name, schema)
+
+for name, path in schemas.items():
+    if choose_schema(name):
+        schema = load_json_from_file(path)
+        execute_tests(name, schema)
+    else:
+        print("SKIP", name)
 
 
 

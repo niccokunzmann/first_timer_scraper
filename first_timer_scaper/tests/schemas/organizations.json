@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "patternProperties": {
+      "^[^/#]+$": {
+        "type": "object",
+        "format": "organization"
+      }
+  },
+  "additionalProperties": false
+}
