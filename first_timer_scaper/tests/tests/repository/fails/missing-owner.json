@@ -27,6 +27,7 @@
       "name": "loklak_server#122",
       "repository_full_name": "loklak/loklak_server",
       "full_name": "loklak/loklak_server#122",
+      "number": 122,
       "created_at": "2011-01-26T19:01:12Z",
       "last_update": "2011-01-26T19:01:12Z",
       "urls": {
@@ -37,15 +38,5 @@
       }
     }
   },
-  "last_update": "2011-01-26T19:01:12Z",
-  "owner" : {
-    "name": "contributor1",
-    "urls": {
-      "html": "/user/contributor1.html",
-      "json": "/user/contributor1.json",
-      "github_html": "https://github.com/contributor1",
-      "github_api": "https://api.github.com/users/contributor1"
-    },
-    "last_update": "2011-01-26T19:01:12Z"
-  }
+  "last_update": "2011-01-26T19:01:12Z"
 }

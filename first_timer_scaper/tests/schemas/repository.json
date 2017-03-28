@@ -28,6 +28,13 @@
           }
       },
       "additionalProperties": false
+    },
+    "owner": {
+      "type": "object",
+      "format": "minimal_user"
     }
-  }
+  },
+  "required": ["first_timer_pull_requests", "number_of_first_timer_pull_requests", 
+               "number_of_first_timers", "first_timers", "owner"]
+
 }
