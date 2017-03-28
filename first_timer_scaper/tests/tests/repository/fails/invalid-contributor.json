@@ -1,0 +1,40 @@
+{
+  "name": "loklak_server",
+  "full_name": "loklak/loklak_server",
+  "urls": {
+    "html": "/repository/loklak/loklak_server.html",
+    "json": "/repository/loklak/loklak_server.json",
+    "github_html": "https://github.com/loklak/loklak_server",
+    "github_api": "https://api.github.com/repos/loklak/loklak_server"
+  }, 
+  "first_timers" : {
+    "contributor1": {
+      "pull_request": "loklak/loklak_server#122",
+      "name": "contributor1",
+      "urls": {
+        "html": "/user/contributor1.html",
+        "json": "/user/contributor1.json",
+        "github_html": "https://github.com/contributor1"
+      },
+      "last_update": "2011-01-26T19:01:12Z"
+    }
+  },
+  "number_of_first_timer_pull_requests": 1,
+  "first_timer_pull_requests": {
+    "loklak/loklak_server#122": {
+      "name": "loklak_server#122",
+      "repository_full_name": "loklak/loklak_server",
+      "full_name": "loklak/loklak_server#122",
+      "number": 122,
+      "created_at": "2011-01-26T19:01:12Z",
+      "last_update": "2011-01-26T19:01:12Z",
+      "urls": {
+        "html": "https://github.com/loklak/loklak_server/pulls/122",
+        "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
+        "github_html": "https://github.com/loklak/loklak_server/pulls/122",
+        "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122"
+      }
+    }
+  },
+  "last_update": "2011-01-26T19:01:12Z"
+}

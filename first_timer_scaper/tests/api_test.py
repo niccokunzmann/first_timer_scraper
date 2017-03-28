@@ -57,8 +57,6 @@ def test_schema(name, schema, message):
     """
     works = test_files(name, "works")
     fails = test_files(name, "fails")
-    assert works, "schema " + name + " should test a valid example"
-    assert fails, "schema " + name + " should test an invalid example"
     for validate, files in [(schema_works, works), (schema_fails, fails)]:
         for file in files:
             instance = load_json_from_file(file)
@@ -75,6 +73,8 @@ def test_schema(name, schema, message):
                 raise
             else:
                 print(message, "| ok", file)
+    assert works, "schema " + name + " should test a valid example"
+    assert fails, "schema " + name + " should test an invalid example"
 
 #
 # Load all `schema_xxx.json` files:

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "format" : "minimal",
+  "properties": {
+    "first_timers": {
+      "type": "object",
+      "patternProperties": {
+          "^[^/#]+$": {
+            "type": "object",
+            "format": "minimal_user"
+          }
+      },
+      "additionalProperties": false
+    },
+    "number_of_first_timers": {
+      "format": "positiveInteger"
+    },
+    "number_of_first_timer_pull_requests": {
+      "format": "positiveInteger"
+    },
+    "first_timer_pull_requests": {
+      "type": "object",
+      "patternProperties": {
+          "^[^/#]+/[^/#]+#[0123456789]+$": {
+            "type": "object",
+            "format": "minimal_pullrequest"
+          }
+      },
+      "additionalProperties": false
+    }
+  }
+}
