@@ -80,61 +80,13 @@ API
     They will be tried and removed if invalid.
 - Organization
   - `GET /organizations<ENDING>`  
-    List all organizations with links to their statuses.  
-    ```
-    {
-      "loklak": {
-        "name": "loklak"
-        "repositories" : {
-          "loklak_server": {
-            "name": "loklak_server",
-            "full_name": "loklak/loklak_server"
-            "urls": {
-              "html": "/repository/loklak/loklak_server.html",
-              "json": "/repository/loklak/loklak_server.json",
-              "github_html": "https://github.com/loklak/loklak_server",
-              "github_api": "https://api.github.com/repos/loklak/loklak_server",
-            }
-          }
-        },
-        "urls": {
-          "html": "/organization/loklak.html",
-          "json": "/organization/loklak.json",
-          "github_html": "https://github.com/loklak",
-          "github_api": "https://api.github.com/orgs/loklak",
-        },
-        "last_update": "2011-01-26T19:01:12Z",
-        "number_of_first_timers": 1,
-        "first_timers": {
-          "contributor1": {
-            "name": "contributor1",
-            "urls": {
-              "html": "/user/contributor1.html",
-              "json": "/user/contributor1.json",
-              "github_html": "https://github.com/contributor1",
-              "github_api": "https://api.github.com/users/contributor1",
-            },
-          },
-          "pull_requests_in_organization": {
-            "loklak/loklak_server#122": {
-              "repository_name": "loklak_server",
-              "full_name": "loklak/loklak_server#122",
-              "number": 122
-              "created_at": "2011-01-26T19:01:12Z",
-              "urls": {
-                "html": "https://github.com/loklak/loklak_server/pulls/122",
-                "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-                "github_html": "https://github.com/loklak/loklak_server/pulls/122",
-                "github_api": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
-              }
-            }
-          }
-        }
-      }
-    }
-    ```
+    [schema][organizations-schema]
+    [example responses][organizations-examples]  
+    List all organizations with links to their statuses.    
     Users may be listed among them.
   - `GET /organization/<organization><ENDING>`  
+    [schema][organization-schema]
+    [example responses][organization-examples]  
     Get an organization and its status.
     Same as the element of `/organizations.json`
   - `POST /organization<ENDING>`  
@@ -142,9 +94,13 @@ API
     This shows an html page with a link to the status of the organization.
 - Repository
   - `GET /repositories<ENDING>`  
+    [schema][repositories-schema]
+    [example responses][repositories-examples]  
     List all repositories with links to their statuses.
     See below for the content of the list.
   - `GET /repository/<organization>/<repository><ENDING>`  
+    [schema][repository-schema]
+    [example responses][repository-examples]  
     Get the repository and its status.  
     ```
     {
@@ -189,9 +145,11 @@ API
     Sumbit a `repository` for scraping
 - User
   - `GET /users<ENDING>`  
-    All the users and their statuses.
-    See the below for the content of the list.
+    Same as `GET /organizations<ENDING>`.
   - `GET /user/<user><ENDING>`  
+    Same as `GET /organizations<ENDING>`.
+    [schema][user-schema]
+    [example responses][user-examples]  
     Return the status of this github user.
     - what are the first-timer repositories?
     ```
@@ -235,7 +193,21 @@ API
     Submit all found organizations.
 - Issues
   - TODO: do we need an issue endpoint?
-  
+
+[organizations-schema](first_timer_scaper\tests\schemas\organizations.json)
+[organizations-examples](first_timer_scaper\tests\tests\organizations\works)  
+[organization-schema](first_timer_scaper\tests\schemas\organization.json)
+[organization-examples](first_timer_scaper\tests\tests\organization\works)  
+[users-schema](first_timer_scaper\tests\schemas\users.json)
+[users-examples](first_timer_scaper\tests\tests\users\works)  
+[user-schema](first_timer_scaper\tests\schemas\user.json)
+[user-examples](first_timer_scaper\tests\tests\user\works)  
+[repositories-schema](first_timer_scaper\tests\schemas\repositories.json)
+[repositories-examples](first_timer_scaper\tests\tests\repositories\works)  
+[repository-schema](first_timer_scaper\tests\schemas\repository.json)
+[repository-examples](first_timer_scaper\tests\tests\repository\works)  
+
+
 ### Minimal definitions
 
 When objects are defined, they contain minimal definitions.
