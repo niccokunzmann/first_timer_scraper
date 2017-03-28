@@ -194,18 +194,18 @@ API
 - Issues
   - TODO: do we need an issue endpoint?
 
-[organizations-schema]: first_timer_scaper\tests\schemas\organizations.json
-[organizations-examples]: first_timer_scaper\tests\tests\organizations\works
-[organization-schema]: first_timer_scaper\tests\schemas\organization.json
-[organization-examples]: first_timer_scaper\tests\tests\organization\works
-[users-schema]: first_timer_scaper\tests\schemas\users.json
-[users-examples]: first_timer_scaper\tests\tests\users\works
-[user-schema]: first_timer_scaper\tests\schemas\user.json
-[user-examples]: first_timer_scaper\tests\tests\user\works
-[repositories-schema]: first_timer_scaper\tests\schemas\repositories.json
-[repositories-examples]: first_timer_scaper\tests\tests\repositories\works
-[repository-schema]: first_timer_scaper\tests\schemas\repository.json
-[repository-examples]: first_timer_scaper\tests\tests\repository\works
+[organizations-schema]: first_timer_scaper/tests/schemas/organizations.json
+[organizations-examples]: first_timer_scaper/tests/tests/organizations/works
+[organization-schema]: first_timer_scaper/tests/schemas/organization.json
+[organization-examples]: first_timer_scaper/tests/tests/organization/works
+[users-schema]: first_timer_scaper/tests/schemas/users.json
+[users-examples]: first_timer_scaper/tests/tests/users/works
+[user-schema]: first_timer_scaper/tests/schemas/user.json
+[user-examples]: first_timer_scaper/tests/tests/user/works
+[repositories-schema]: first_timer_scaper/tests/schemas/repositories.json
+[repositories-examples]: first_timer_scaper/tests/tests/repositories/works
+[repository-schema]: first_timer_scaper/tests/schemas/repository.json
+[repository-examples]: first_timer_scaper/tests/tests/repository/works
 
 
 ### Minimal definitions
