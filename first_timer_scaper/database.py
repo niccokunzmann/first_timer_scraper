@@ -48,7 +48,8 @@ class Database:
             json.dump(self.__data, f)
 
     def __iter__(self):
-        return iter(copy.copy(self.data[:]))
+        with self:
+            return iter(list(self.data))
     
     @property
     def data(self):
