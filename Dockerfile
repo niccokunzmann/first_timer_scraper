@@ -18,3 +18,4 @@ WORKDIR /app/
 ENV PYTHONUNBUFFERED 0
 
 ENTRYPOINT ["python3", "-m", "first_timer_scraper.app"]
+CMD ["/tmp/cache", "/app/secret", "/app/model"]
