@@ -111,7 +111,6 @@ class Scraper:
     def scrape_repository(self, full_name, update_organization=False):
         print("scrape repository", full_name)
         self._model.update_requested(full_name)
-        self._model.updated_requested(full_name)
         @self.clone(full_name)
         def when_cloned(repo):
             if repo.can_have_first_timers():
