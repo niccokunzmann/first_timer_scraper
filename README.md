@@ -180,7 +180,8 @@ Command Line
 
 This runs the docker container:
 
-    docker run -p 8080:8080                        \
+    docker run --rm                                \
+               -p 8080:8080                        \
                -v "secret:/app/secret"             \
                -v "model:/app/model"               \
                niccokunzmann/first_timer_scraper
@@ -192,6 +193,10 @@ The parameters have the following meaning:
 
 When you ran the command, you can visit <http://localhost:8080>,
 submit credentails and scrape repositories.
+
+You can build the Docker image like this:
+
+    docker build . -t niccokunzmann/first_timer_scraper
 
 Data Model
 ----------
