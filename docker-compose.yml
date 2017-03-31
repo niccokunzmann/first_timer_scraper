@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  firsttimers:
+    image: niccokunzmann/first_timer_scraper
+    volumes:
+    - "/srv/docker/firsttimers/secret:/app/secret"
+    - "/srv/docker/firsttimers/model:/app/model"
+
