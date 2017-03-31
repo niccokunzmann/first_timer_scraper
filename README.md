@@ -190,6 +190,9 @@ The parameters have the following meaning:
 - The secret data including passwords are stored in the folder `./secret`.
 - The model data is stored in the folder `./model`
 
+When you ran the command, you can visit <http://localhost:8080>,
+submit credentails and scrape repositories.
+
 Data Model
 ----------
 
