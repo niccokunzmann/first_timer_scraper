@@ -178,7 +178,17 @@ Command Line
 
 ### Docker
 
-`docker run niccokunzmann/first_timer_scraper /tmp/cache /secrets /model`
+This runs the docker container:
+
+    docker run -p 8080:8080                        \
+               -v "secret:/app/secret"             \
+               -v "model:/app/model"               \
+               niccokunzmann/first_timer_scraper
+
+The parameters have the following meaning:
+- The API of the first-timer-scraper is available as <http://localhost:8080>.
+- The secret data including passwords are stored in the folder `./secret`.
+- The model data is stored in the folder `./model`
 
 Data Model
 ----------
