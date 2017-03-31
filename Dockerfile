@@ -4,7 +4,7 @@ FROM python:3.5.0-slim
 # Prepare the environment
 RUN pip install --no-cache --upgrade pip
 RUN mkdir /app
-COPY first_timer_scaper/ /app/
+COPY first_timer_scaper /app/first_timer_scraper
 COPY LICENSE /app/
 COPY requirements.txt /app/
 
@@ -17,4 +17,4 @@ EXPOSE 80
 WORKDIR /app/
 ENV PYTHONUNBUFFERED 0
 
-ENTRYPOINT ["python3", "-m", "first_timer_scaper.app"]
+ENTRYPOINT ["python3", "-m", "first_timer_scraper.app"]
