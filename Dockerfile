@@ -11,7 +11,7 @@ COPY requirements.txt /app/
 RUN cd /app && \
     pip install --no-cache -r requirements.txt
 
-COPY first_timer_scaper /app/first_timer_scraper
+COPY first_timer_scraper /app/first_timer_scraper
 
 # Prepare execution
 EXPOSE 80
