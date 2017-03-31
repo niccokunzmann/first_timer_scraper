@@ -166,7 +166,7 @@ def get_source():
 def main():
     scraper.set_cache(PathCache(sys.argv[1]))
     credentials.save_to(sys.argv[2])
-    model.save_to(sys.argv[2])
+    model.save_to(sys.argv[3])
     scraper.start()
     run(host="", port=8080, debug=True)
 

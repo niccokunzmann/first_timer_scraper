@@ -163,14 +163,22 @@ E.g. `repository["urls"]["json"]` always points to the repository endpoint.
 Command Line
 ------------
 
-`python3 -m first_timer_scraper <DATA_FOLDER> <SECRETS_FOLDER>`
+`python3 -m first_timer_scraper <CACHE_FOLDER> <SECRETS_FOLDER> <MODEL_FOLDER>`
 
-- `DATA_FOLDER` is the folder where the data is stored.
+- `CACHE_FOLDER` is the folder where the scraped data is stored.
+  This is the cache. It is totally ok to remove all this data.
 - `SECRETS_FOLDER` is the folder where the secrets are stored.
+  These are the secrets to access thegithub API.
+- `MODEL_FOLDER` is the storage place of the model/the data base this is built.
+  If you delete this, you can start scraping anew.
 
-Windows:
+### Windows
 
-`py -3.4 -m first_timer_scaper.app data secret`
+`py -3.4 -m first_timer_scaper.app data secret model`
+
+### Docker
+
+`docker run niccokunzmann/first_timer_scraper /tmp/cache /secrets /model`
 
 Data Model
 ----------
