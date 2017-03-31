@@ -190,6 +190,8 @@ The parameters have the following meaning:
 - The API of the first-timer-scraper is available as <http://localhost:8080>.
 - The secret data including passwords are stored in the folder `./secret`.
 - The model data is stored in the folder `./model`
+- `--rm` is for development purposes.
+  It removes the container and all the cache when the container stops.
 
 When you ran the command, you can visit <http://localhost:8080>,
 submit credentails and scrape repositories.
