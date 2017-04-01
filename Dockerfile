@@ -1,5 +1,5 @@
 # see https://hub.docker.com/_/python/
-FROM python:3.5.0-slim
+FROM python:3.5.0-alpine
 
 # Prepare the environment
 RUN pip install --no-cache --upgrade pip
@@ -10,6 +10,9 @@ COPY requirements.txt /app/
 # install the environment
 RUN cd /app && \
     pip install --no-cache -r requirements.txt
+# see http://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management
+RUN apk add git && \
+    apk -v cache clean
 
 COPY first_timer_scraper /app/first_timer_scraper
 
