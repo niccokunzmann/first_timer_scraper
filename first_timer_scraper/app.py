@@ -69,6 +69,8 @@ def get_all_organizations(ending):
 def get_organization(organization, ending):
     """Get an organization and its status.
     """
+    if ending == "json":
+        return api.get_organization(organization)
     todo()
 
 @get("/repositories.<ending>")
