@@ -11,7 +11,8 @@ COPY requirements.txt /app/
 RUN cd /app && \
     pip install --no-cache -r requirements.txt
 # see http://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management
-RUN apk add git && \
+RUN apk update && \
+    apk add git && \
     apk -v cache clean
 
 COPY first_timer_scraper /app/first_timer_scraper
