@@ -1,5 +1,5 @@
 # see https://hub.docker.com/_/python/
-FROM python:3.5.0-alpine
+FROM python:3-alpine
 
 # Prepare the environment
 RUN pip install --no-cache --upgrade pip
