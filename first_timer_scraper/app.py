@@ -63,7 +63,7 @@ def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
     if ending == "json":
         return api.get_organizations()
-    return template("all-organizations.html")
+    return template("organizations.html")
 
 @get("/organization/<organization>.<ending>")
 def get_organization(organization, ending):
@@ -71,7 +71,7 @@ def get_organization(organization, ending):
     """
     if ending == "json":
         return api.get_organization(organization)
-    todo()
+    return template("organization.html", organization=organization)
 
 @get("/repositories.<ending>")
 def get_all_repositories(ending):
