@@ -75,10 +75,16 @@ class Model(Database):
         org_name, repo_name = repository.split("/")
         with self:
             first_timer = self._get_organization(github_user)
+            previous_exists = False
             if repository in first_timer["first_timer_prs"]:
-                if first_timer["first_timer_prs"][repository]["number"] < pull_request_number:
+                previous_pr_number = first_timer["first_timer_prs"][repository]["number"]
+                assert isinstance(previous_pr_number, int)
+                if previous_pr_number < pull_request_number:
                     # found earlier pull-request
                     return
+                else:
+                    # replace with later pr
+                    previous_exists = True
             repo = self._get_repository(org_name, repo_name)
             first_timer["first_timer_prs"][repository] = {
                 "number": pull_request_number,
@@ -86,6 +92,8 @@ class Model(Database):
                 "last_update_requested": now()
             }
             repo["first_timer_prs"][pull_request_number] = github_user
+            if previous_exists:
+                del repo["first_timer_prs"][str(previous_pr_number)]
         
     def update_requested(self, entry_name):
         """Log that an update was requested."""
