@@ -79,12 +79,12 @@ class Model(Database):
                 if first_timer["first_timer_prs"][repository]["number"] < pull_request_number:
                     # found earlier pull-request
                     return
+            repo = self._get_repository(org_name, repo_name)
             first_timer["first_timer_prs"][repository] = {
                 "number": pull_request_number,
                 "created_at": pull_request_created_at,
                 "last_update_requested": now()
             }
-            repo = self._get_repository(org_name, repo_name)
             repo["first_timer_prs"][pull_request_number] = github_user
         
     def update_requested(self, entry_name):
