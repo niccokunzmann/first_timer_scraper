@@ -34,6 +34,21 @@ class Api:
         organization["number_of_pull_requests_in_organization"] = len(pull_requests_in_organization)
         return organization
     get_user = get_organization
+
+    def get_repository(self, organization_name, repository_name):
+        """Get the data as defined in the API"""
+        m_repository = self._model.get_repository_read_only(organization_name, repository_name)
+        repository = self.get_minimal_repository(organization_name, repository_name)
+        repository["owner"] = self.get_minimal_organization(organization_name)
+        repository["first_timers"] = first_timers = {}
+        repository["first_timer_pull_requests"] = first_timer_pull_requests = {}
+        for m_pullrequest_number, m_contributor_name in m_repository["first_timer_prs"].items():
+            first_timers[m_contributor_name] = self.get_minimal_user(m_contributor_name)
+            pull_request = self.get_minimal_pullrequest(organization_name, repository_name, m_pullrequest_number)
+            first_timer_pull_requests[pull_request["full_name"]] = pull_request
+        repository["number_of_first_timers"] = len(first_timers)
+        repository["number_of_first_timer_pull_requests"] = len(first_timer_pull_requests)
+        return repository
         
     def get_minimal_organization(self, name):
         return {"name": name,

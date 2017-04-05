@@ -90,6 +90,8 @@ def add_repository(ending):
 def get_repository(organization, repository, ending):
     """Get the repository and its status.  
     """
+    if ending == "json":
+        return api.get_repository(organization, repository)
     todo()
 
 @post("/auth")
