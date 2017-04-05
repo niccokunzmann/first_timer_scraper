@@ -83,7 +83,7 @@ def get_organization(organization, ending):
         return data
     if ending == "svg":
         return badge(data["number_of_first_timers"])
-    return template("organization.html", organization=organization, data=data)
+    return template("organization.html", organization=organization, org=data)
 
 @get("/repositories.<ending>")
 def get_all_repositories(ending):
@@ -113,7 +113,7 @@ def get_repository(organization, repository, ending):
         return data
     if ending == "svg":
         return badge(data["number_of_first_timers"])
-    return template("repository.html", organization=organization, repository=repository, data=data)
+    return template("repository.html", organization=organization, repository=repository, repo=data)
 
 @post("/auth")
 def add_authentication():
