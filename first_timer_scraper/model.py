@@ -3,6 +3,8 @@ from .database import Database
 import copy
 from pprint import pprint
 
+__version__ = 1
+
 def now():
     """Return the current time in equivalent to github format.
     
@@ -17,7 +19,7 @@ class Model(Database):
     # all starting with _ are internal, need a `with self:`
     # all without underscode do not need a `with self:`
     
-    file_name = "model.json"
+    file_name = "model_v{}.json".format(__version__)
     get_initial_data = dict
     
     def _get_organization(self, organization):
