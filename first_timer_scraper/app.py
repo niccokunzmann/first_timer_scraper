@@ -11,12 +11,16 @@ from .scraper import Scraper
 from .cache import PathCache
 from .model import Model
 from .api import Api
+from .time import is_older_than_seconds
 
 APPLICATION = 'first_timer_scraper'
 ZIP_PATH = "/" + APPLICATION + ".zip"
 HERE = os.path.dirname(__file__)
 STATIC_FILES = os.path.join(HERE, "static")
 TEMPLATE_FOLDER = os.path.join(HERE, "templates")
+SECONDS_TO_RESCRAPE = 3600
+def needs_update(data):
+    return is_older_than_seconds(data["last_update"], SECONDS_TO_RESCRAPE)
 
 credentials = Credentials()
 model = Model()
@@ -35,7 +39,7 @@ def template(name, **kw):
     return template.render(api=api, **kw)
 
 def badge(number):
-    response.set_header('Cache-Control', 'public, max-age=3600')
+    response.set_header('Cache-Control', 'public, max-age={}'.format(SECONDS_TO_RESCRAPE))
     response.content_type = "image/svg+xml;charset=utf-8"
     if number < 10:
         return template("First Timers-1-blue.svg", number=number)
@@ -72,12 +76,14 @@ def get_all_organizations(ending):
 def get_organization(organization, ending):
     """Get an organization and its status.
     """
+    data = api.get_organization(organization)
+    if needs_update(data):
+        scraper.scrape_organization(organization)
     if ending == "json":
-        return api.get_organization(organization)
+        return data
     if ending == "svg":
-        data = api.get_organization(organization)
         return badge(data["number_of_first_timers"])
-    return template("organization.html", organization=organization)
+    return template("organization.html", organization=organization, data=data)
 
 @get("/repositories.<ending>")
 def get_all_repositories(ending):
@@ -100,12 +106,14 @@ def add_repository(ending):
 def get_repository(organization, repository, ending):
     """Get the repository and its status.  
     """
+    data = api.get_repository(organization, repository)
+    if needs_update(data):
+        scraper.scrape_repository(organization + "/" + repository)
     if ending == "json":
-        return api.get_repository(organization, repository)
+        return data
     if ending == "svg":
-        data = api.get_repository(organization, repository)
         return badge(data["number_of_first_timers"])
-    return template("repository.html", organization=organization, repository=repository)
+    return template("repository.html", organization=organization, repository=repository, data=data)
 
 @post("/auth")
 def add_authentication():

@@ -2,17 +2,9 @@ import time
 from .database import Database
 import copy
 from pprint import pprint
+from .time import START, now
 
 __version__ = 1
-
-def now():
-    """Return the current time in equivalent to github format.
-    
-    This is Greenwith Mean Time (UTC).
-    """
-    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-    
-START = now()
 
 class Model(Database):
 
