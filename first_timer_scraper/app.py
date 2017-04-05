@@ -102,6 +102,9 @@ def get_repository(organization, repository, ending):
     """
     if ending == "json":
         return api.get_repository(organization, repository)
+    if ending == "svg":
+        data = api.get_repository(organization, repository)
+        return badge(data["number_of_first_timers"])
     return template("repository.html", organization=organization, repository=repository)
 
 @post("/auth")
