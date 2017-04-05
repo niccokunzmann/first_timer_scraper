@@ -2,7 +2,7 @@ first_timer_scraper
 ===================
 
 [![](https://dockerbuildbadges.quelltext.eu/status.svg?repository=first_timer_scraper&organization=niccokunzmann)](https://hub.docker.com/r/niccokunzmann/first_timer_scraper/builds/)
-[![](http://firsttimers.quelltext.eu/repository/niccokunzmann/first_timer_scraper.svg)](http://firsttimers.quelltext.eu/repository/niccokunzmann/first_timer_scraper.html)
+[![](https://firsttimers.quelltext.eu/repository/niccokunzmann/first_timer_scraper.svg)](https://firsttimers.quelltext.eu/repository/niccokunzmann/first_timer_scraper.html)
 
 [Visit the daily build][online].
 
