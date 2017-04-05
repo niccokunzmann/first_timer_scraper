@@ -66,8 +66,6 @@ class Scraper:
                         headers[HEADER_MODIFIED] = last_modified
             for auth in self._credentials:
                 print("GET", url, "as", secure_auth_print(auth))
-                if isinstance(auth, list):
-                    return tuple(credentials)
                 response = requests.get(url, headers=headers, auth=credentials_for_requests(auth))
                 rate_limit = response.headers.get("X-RateLimit-Remaining")
                 if response.status_code == 304:
