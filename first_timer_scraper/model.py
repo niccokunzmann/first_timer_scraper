@@ -45,15 +45,17 @@ class Model(Database):
         
     def get_repository_read_only(self, organization, repository_name):
         with self:
-            return copy.deepcopy(self._get_repository_read_only(organization, repository_name))
+            return copy.deepcopy(self._get_repository_read_only(organization.lower(), repository_name.lower()))
     
     def get_organization_read_only(self, organization):
         with self:
-            return copy.deepcopy(self._get_organization_read_only(organization))
-    
+            return copy.deepcopy(self._get_organization_read_only(organization.lower()))
+            
     def add_first_timer_contribution(self, github_user, repository,
                                      pull_request_number,
                                      pull_request_created_at):
+        github_user = github_user.lower()
+        repository = repository.lower()
         assert github_user.count("/") == 0
         assert repository.count("/") == 1
         assert isinstance(pull_request_number, int)
@@ -73,6 +75,7 @@ class Model(Database):
         
     def update_requested(self, entry_name):
         """Log that an update was requested."""
+        entry_name = entry_name.lower()
         with self:
             if "/" in entry_name:
                 org, repo = entry_name.split("/")
