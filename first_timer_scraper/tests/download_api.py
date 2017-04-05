@@ -59,8 +59,14 @@ def download_collection(plural, singular):
         download_for_schema(singular, instance["urls"]["json"])
         if i >= NUMBER_OF_EXAMPLES:
             break
+    return collection
 
-download_collection("organizations", "organization")
-download_collection("repositories", "repository")
-
+organizations = download_collection("organizations", "organization")
+i = 0
+for organization in organizations.values():
+    for repository in organization["repositories"].values():
+        download_for_schema("repository", repository["urls"]["json"])
+        i += 1
+    if i >= NUMBER_OF_EXAMPLES:
+        break
 
