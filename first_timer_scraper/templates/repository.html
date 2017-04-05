@@ -28,6 +28,11 @@
       % end
     </ul>
     <p>
+      <form action="/repository.html" method="post">
+        Submit this repository to search it for first-timers: <br/>
+        <input type="hidden" name="repository" value='{{ repo["full_name"] }}'>
+        <input type="submit" value='Submit {{ repo["full_name"] }}'>
+      </form>
       <a href="/repository/{{ organization }}/{{ repository }}.json">
         <pre>GET /repository/{{ organization }}/{{ repository }}.json</pre>
       </a>

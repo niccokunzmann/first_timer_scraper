@@ -80,7 +80,7 @@ def add_repository(ending):
     This shows an html page with a link to the status of the repository.
     """
     repository = request.forms.get('repository')
-    organization_name, repository_name = repository.split()
+    organization_name, repository_name = repository.split("/")
     scraper.scrape_repository(repository)
     if ending == "json":
         return {"status": "ok", "urls": api.get_repository_urls(organization_name, repository_name)}
