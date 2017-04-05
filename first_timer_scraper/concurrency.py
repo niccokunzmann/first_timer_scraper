@@ -28,6 +28,7 @@ def unique_step(parallel, numer_of_threads=NUMBER_OF_THREADS):
     @functools.wraps(parallel)
     def record_call(*args):
         def call_function_when_done(function):
+            assert callable(function), "{} must be callable. In {}".format(function, parallel)
             with lock:
                 future = requesting.get(args)
                 if not future:
@@ -45,5 +46,6 @@ def unique_step(parallel, numer_of_threads=NUMBER_OF_THREADS):
                     except:
                         traceback.print_exc()
                 executor.submit(call_function)
+            return function
         return call_function_when_done
     return record_call
