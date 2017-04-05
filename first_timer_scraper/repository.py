@@ -134,8 +134,9 @@ class Repository:
             elif mode == 2:
                 if is_pr_author:
                     mode = 3
-        if mode == 0:
-            print("Could not find commit", sha, "in", self)
+#        if mode == 0:
+#            # closed pull-request
+#            print("Could not find commit", sha, "in", self, "for", pr)
         return mode == 2
 
 Commit = namedtuple("Commit", Repository.commit_attributes)
