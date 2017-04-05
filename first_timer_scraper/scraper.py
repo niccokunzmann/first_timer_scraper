@@ -68,9 +68,9 @@ class Scraper:
                 elif response.status_code == 200:
                     ok = True
                     break
-                elif response.status_code == 403 and rate_limit == 0:
+                elif response.status_code == 403:
                     with self._lock:
-                        print("GET", url, "used up", secure_auth_print(auth))
+                        print("GET", url, "used up", secure_auth_print(auth), "limit", rate_limit)
                         self._credentials.used_up(auth)
                 else:
                     print("GET", url, "ERROR:", response.status_code, response.reason)
