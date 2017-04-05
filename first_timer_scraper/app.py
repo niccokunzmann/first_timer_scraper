@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import sys
+import json
 import tempfile
 import shutil
 import os
@@ -62,7 +63,8 @@ def add_organization_json():
 def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
     if ending == "json":
-        return api.get_organizations()
+        response.content_type='application/json'
+        return json.dumps(api.get_organizations(), indent=2)
     return template("organizations.html")
 
 @get("/organization/<organization>.<ending>")
@@ -70,7 +72,8 @@ def get_organization(organization, ending):
     """Get an organization and its status.
     """
     if ending == "json":
-        return api.get_organization(organization)
+        response.content_type='application/json'
+        return json.dumps(api.get_organization(organization), indent=2)
     return template("organization.html", organization=organization)
 
 @get("/repositories.<ending>")

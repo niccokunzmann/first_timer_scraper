@@ -1,0 +1,42 @@
+% org = api.get_organization(organization)
+<html>
+  <head>
+    <title>{{ organization }}</title>
+  </head>
+  <body>
+    <h1><a href='{{ org["urls"]["github_html"] }}'>{{ organization }}</a></h1>
+    <p>
+      These people have contributed to the organization as first-timers:
+    </p>
+    <ul>
+      % keys = list(org["first_timers"].keys())
+      % keys.sort()
+      % for first_timer_name in keys:
+        % first_timer = org["first_timers"][first_timer_name]
+        <li>
+          <a href='{{ first_timer["urls"]["html"] }}'>{{ first_timer["name"] }}</a>
+          <!-- TODO: add link to pull-request and repository -->
+          (<a href='{{ first_timer["urls"]["github_html"] }}'>Github</a>)
+        </li>
+      % end
+    </ul>
+    <p>
+      These repositories are inside the organization.
+    <p>
+    <ul>
+      % keys = list(org["repositories"].keys())
+      % keys.sort()
+      % for repository_name in keys:
+        % repository = org["first_timers"][repository_name]
+        <li>
+          <a href='{{ repository["urls"]["html"] }}'>{{ repository["name"] }}</a>
+          (<a href='{{ repository["urls"]["github_html"] }}'>Github</a>)
+        </li>
+      % end
+    </ul>
+      <a href="/organizations.json">
+        <pre>GET /organization/{{ organization }}.json</pre>
+      </a>
+    </p>
+  </body>
+</html>

@@ -45,7 +45,7 @@ class Database:
         """Save the credentials."""
         assert self.is_persistent()
         with open(self.path, "w") as f:
-            json.dump(self.__data, f)
+            json.dump(self.__data, f, indent=2)
 
     def __iter__(self):
         with self:

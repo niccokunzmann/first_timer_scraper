@@ -226,6 +226,7 @@ The data model describes what is saved when scraped.
       "loklak/loklak_server": {
         "created_at" : "2011-01-26T19:01:12Z"
         "number": 112 // lowest number wins
+        "last_update_requested": "2011-01-26T19:01:12Z"
       }
     },
     "last_update_requested": "2011-01-26T19:01:12Z",

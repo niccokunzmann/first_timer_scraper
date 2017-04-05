@@ -11,56 +11,65 @@ class Api:
             orgs = list(self._model.data)
         return {name: self.get_organization(name) for name in orgs}
 
-    def get_organization(self, org_name):
+    def get_organization(self, organization_name):
         """Get the data as defined in the API"""
-        org = self._model.get_organization_read_only(org_name)
-        result = {}
-        result["name"] = org_name
-        result["repositories"] = repos = {}
-        result["first_timers"] = first_timers = {}
-        for repo_name, _repo in org["repos"].items():
+        m_organization = self._model.get_organization_read_only(organization_name)
+        organization = self.get_minimal_organization(organization_name)
+        organization["repositories"] = repositories = {}
+        organization["first_timers"] = first_timers = {}
+        organization["pull_requests_in_organization"] = pull_requests_in_organization = {}
+        for m_repository_name, m_repository in m_organization["repos"].items():
             #        "first_timer_prs": {
             #          112: "contributor1"
             #        },
             #        "last_update_requested": "2011-01-26T19:01:12Z"
-            full_name = org_name + "/" + repo_name
-            repos[repo_name] = {"name": repo_name,
-                           "full_name": full_name,
-                           "urls": self.get_repo_urls(full_name)}
-            pprint((org_name, repo_name, _repo))
-            for pr_number, contributor in _repo["first_timer_prs"].items():
-                pr_number = int(pr_number)
-                if contributor not in first_timers:
-                    first_timers[contributor] = {
-                        "name": contributor,
-                        "url": self.get_user_urls(contributor),
-                        "pull_requests_in_organization": {}
-                    }
-                prs = first_timers[contributor]["pull_requests_in_organization"]
-                pr_full_name = "{}#{}".format(full_name, pr_number)
-                _contributor = self._model.get_organization_read_only(contributor)
-                _pr = _contributor["first_timer_prs"][full_name]
-                assert _pr["number"] == pr_number, "inconsistent in {}: {} != {}".format(pr_full_name, repr(_pr["number"]), repr(pr_number))
-                prs[pr_full_name] = {
-                    "repository_name": repo_name,
-                    "full_name": pr_full_name,
-                    "number": pr_number,
-                    "created_at": _pr["created_at"],
-                    "urls": self.get_pull_urls(org_name, repo_name, pr_number)
-                }
-        result["urls"] = self.get_org_urls(org_name)
-        result["last_update"] = org["last_update_requested"]
-        result["number_of_first_timers"] = len(first_timers)
-        return result
+            repositories[m_repository_name] = self.get_minimal_repository(organization_name, m_repository_name)
+            for m_pullrequest_number, m_contributor in m_repository["first_timer_prs"].items():
+                if m_contributor not in first_timers:
+                    first_timers[m_contributor] = self.get_minimal_user(m_contributor)
+                pullrequest = self.get_minimal_pullrequest(organization_name, m_repository_name, m_pullrequest_number)
+                pull_requests_in_organization[pullrequest["full_name"]] = pullrequest
+        organization["number_of_first_timers"] = len(first_timers)
+        organization["number_of_repositories"] = len(repositories)
+        organization["number_of_pull_requests_in_organization"] = len(pull_requests_in_organization)
+        return organization
+    get_user = get_organization
+        
+    def get_minimal_organization(self, name):
+        return {"name": name,
+                "urls": self.get_organization_urls(name),
+                "last_update": self._model.get_last_update_of_organization(name)}
 
-    def get_org_urls(self, name):
+    def get_minimal_user(self, name):
+        return {"name": name,
+                "urls": self.get_user_urls(name),
+                "last_update": self._model.get_last_update_of_organization(name)}
+                
+    def get_minimal_repository(self, org, repo):
+        return {"name": repo,
+                "full_name": org + "/" + repo,
+                "urls": self.get_repository_urls(org, repo),
+                "last_update": self._model.get_last_update_of_repository(org, repo)}
+
+    def get_minimal_pullrequest(self, org, repo, number):
+        pr = self._model.get_pullrequest_read_only(org, repo, number)
+        return {"name": repo + "#" + str(number),
+                "full_name": org + "/" + repo + "#" + str(number),
+                "urls": self.get_pullrequest_urls(org, repo, number),
+                "number": int(number),
+                "repository_full_name": org + "/" + repo,
+                "last_update": pr["last_update_requested"],
+                "created_at": pr["created_at"]}
+
+    def get_organization_urls(self, name):
         return {
             "html": "/organization/{}.html".format(name),
             "json": "/organization/{}.json".format(name),
             "github_html": "https://github.com/{}".format(name),
             "github_api": "https://api.github.com/orgs/{}".format(name)}
 
-    def get_repo_urls(self, full_name):
+    def get_repository_urls(self, org, repo):
+        full_name = org + "/" + repo
         return {
             "html": "/repository/{}.html".format(full_name),
             "json": "/repository/{}.json".format(full_name),
@@ -74,7 +83,7 @@ class Api:
             "github_html": "https://github.com/{}".format(name),
             "github_api": "https://api.github.com/users/{}".format(name)}
 
-    def get_pull_urls(self, org, repo, number):
+    def get_pullrequest_urls(self, org, repo, number):
         return {
             "html": "https://github.com/{}/{}/pull/{}".format(org, repo, number),
             "json": "https://api.github.com/repos/{}/{}/pulls/{}".format(org, repo, number),
