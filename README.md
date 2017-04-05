@@ -93,6 +93,10 @@ API
     [example responses][organization-examples]  
     Get an organization and its status.
     Same as the element of `/organizations.json`
+    Ending:
+    - `json`
+    - `html`
+    - `svg` ![](https://img.shields.io/badge/First%20Timers-1-blue.svg)
   - `POST /organization<ENDING>`  
     Submit an `organization` for scraping.
     This shows an html page with a link to the status of the organization.
@@ -106,6 +110,10 @@ API
     [schema][repository-schema]
     [example responses][repository-examples]  
     Get the repository and its status.  
+    Ending:
+    - `json`
+    - `html`
+    - `svg` ![](https://img.shields.io/badge/First%20Timers-1-blue.svg)
   - `POST /repository`  
     Sumbit a `repository` for scraping
 - User
