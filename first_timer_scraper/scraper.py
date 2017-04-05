@@ -27,6 +27,13 @@ def secure_auth_print(auth):
     else:
         return "<??>"
 
+def credentials_for_requests(credentials):
+    if credentials is None:
+        return credentials
+    if isinstance(credentials, list):
+        return tuple(credentials)
+    return credentials
+
 class Scraper:
 
     def __init__(self, credentials, model):
@@ -59,7 +66,9 @@ class Scraper:
                         headers[HEADER_MODIFIED] = last_modified
             for auth in self._credentials:
                 print("GET", url, "as", secure_auth_print(auth))
-                response = requests.get(url, headers=headers, auth=auth)
+                if isinstance(auth, list):
+                    return tuple(credentials)
+                response = requests.get(url, headers=headers, auth=credentials_for_requests(auth))
                 rate_limit = response.headers.get("X-RateLimit-Remaining")
                 if response.status_code == 304:
                     assert cached_result
