@@ -8,7 +8,14 @@
       "patternProperties": {
           "^[^/#]+$": {
             "type": "object",
-            "format": "minimal_user"
+            "format": "minimal_user",
+            "properties": {
+              "pull_request" : {
+                "type": "string",
+                "pattern": "^[^/#]+/[^/#]+#[0123456789]+$"
+              }
+            },
+            "required": ["pull_request"]
           }
       },
       "additionalProperties": false

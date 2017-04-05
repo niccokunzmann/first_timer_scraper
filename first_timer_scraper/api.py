@@ -43,8 +43,10 @@ class Api:
         repository["first_timers"] = first_timers = {}
         repository["first_timer_pull_requests"] = first_timer_pull_requests = {}
         for m_pullrequest_number, m_contributor_name in m_repository["first_timer_prs"].items():
-            first_timers[m_contributor_name] = self.get_minimal_user(m_contributor_name)
+            contributor = self.get_minimal_user(m_contributor_name)
             pull_request = self.get_minimal_pullrequest(organization_name, repository_name, m_pullrequest_number)
+            contributor["pull_request"] = pull_request["full_name"]
+            first_timers[m_contributor_name] = contributor
             first_timer_pull_requests[pull_request["full_name"]] = pull_request
         repository["number_of_first_timers"] = len(first_timers)
         repository["number_of_first_timer_pull_requests"] = len(first_timer_pull_requests)
