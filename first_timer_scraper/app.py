@@ -35,7 +35,8 @@ def template(name, **kw):
     return template.render(api=api, **kw)
 
 def badge(number):
-    
+    response.set_header('Cache-Control', 'public, max-age=3600')
+    response.content_type = "image/svg+xml;charset=utf-8"
     if number < 10:
         return template("First Timers-1-blue.svg", number=number)
     if number < 100:
@@ -64,7 +65,6 @@ def add_organization_html(ending):
 def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
     if ending == "json":
-        response.content_type='application/json'
         return api.get_organizations()
     return template("organizations.html")
 
@@ -73,7 +73,6 @@ def get_organization(organization, ending):
     """Get an organization and its status.
     """
     if ending == "json":
-        response.content_type='application/json'
         return api.get_organization(organization)
     if ending == "svg":
         data = api.get_organization(organization)
