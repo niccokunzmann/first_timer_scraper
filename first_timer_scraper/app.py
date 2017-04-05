@@ -34,6 +34,14 @@ def template(name, **kw):
         template = SimpleTemplate(f.read())
     return template.render(api=api, **kw)
 
+def badge(number):
+    
+    if number < 10:
+        return template("First Timers-1-blue.svg", number=number)
+    if number < 100:
+        return template("First Timers-10-blue.svg", number=number)
+    return template("First Timers-100-blue.svg", number=number)
+
 def todo():
     raise NotImplementedError("This is still under construction.")
 
@@ -67,6 +75,9 @@ def get_organization(organization, ending):
     if ending == "json":
         response.content_type='application/json'
         return api.get_organization(organization)
+    if ending == "svg":
+        data = api.get_organization(organization)
+        return badge(data["number_of_first_timers"])
     return template("organization.html", organization=organization)
 
 @get("/repositories.<ending>")
