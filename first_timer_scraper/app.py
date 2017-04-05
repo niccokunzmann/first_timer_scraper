@@ -92,7 +92,7 @@ def get_repository(organization, repository, ending):
     """
     if ending == "json":
         return api.get_repository(organization, repository)
-    todo()
+    return template("repository.html", organization=organization, repository=repository)
 
 @post("/auth")
 def add_authentication():

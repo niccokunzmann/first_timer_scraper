@@ -1,0 +1,36 @@
+% repo = api.get_repository(organization, repository)
+<html>
+  <head>
+    <title>{{ organization }}/{{ repository }}</title>
+  </head>
+  <body>
+    <h1><a href='{{ repo["owner"]["urls"]["html"] }}'>{{ organization }}</a>/<a href='{{ repo["urls"]["github_html"] }}'>{{ repository }}</a></h1>
+    <p>
+      These people have contributed to the repository as first-timers:
+    </p>
+    <ul>
+      % if repo["first_timer_pull_requests"]:
+        % prs = list(repo["first_timer_pull_requests"].values())
+        % prs.sort(key=lambda pr: pr["number"])
+        % for pr in prs:
+          % first_timer = repo["first_timers"][pr["first_timer"]]
+          <li>
+            <a href='{{ first_timer["urls"]["html"] }}'>{{ first_timer["name"] }}</a>
+            <!-- TODO: add link to pull-request and repository -->
+            (<a href='{{ first_timer["urls"]["github_html"] }}'>Github</a>)
+            <a href='{{ pr["urls"]["github_html"] }}'>#{{ pr["number"] }}</a>
+          </li>
+        % end
+      % else:
+        <li class="none">
+        There are first time contributors, yet.
+        </li>
+      % end
+    </ul>
+    <p>
+      <a href="/repository/{{ organization }}/{{ repository }}.json">
+        <pre>GET /repository/{{ organization }}/{{ repository }}.json</pre>
+      </a>
+    </p>
+  </body>
+</html>
