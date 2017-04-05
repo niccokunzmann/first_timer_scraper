@@ -22,7 +22,7 @@ def print(*args, **kw):
 def secure_auth_print(auth):
     if auth is None:
         return None
-    if isinstance(auth, tuple):
+    if isinstance(auth, (tuple,list)):
         return auth[0]
     else:
         return "<??>"
