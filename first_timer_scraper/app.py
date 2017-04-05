@@ -41,30 +41,23 @@ def todo():
 def get_static_file(path):
     return static_file(path, root=STATIC_FILES)
 
-@post("/organization.html")
-def add_organization_html():
+@post("/organization.<ending>")
+def add_organization_html(ending):
     """Submit an organization for scraping.
     This shows an html page with a link to the status of the organization.
     """
     organization = request.forms.get('organization')
     scraper.scrape_organization(organization)
+    if ending == "json":
+        return {"status": "ok", "urls": api.get_organization_urls(organization)}
     return template("added-organization.html", organization=organization)
-
-@post("/organization.json")
-def add_organization_json():
-    """Submit an organization for scraping.
-    This shows an html page with a link to the status of the organization.
-    """
-    organization = request.forms.get('organization')
-    scraper.scrape_organization(organization)
-    return {"status": "ok", "urls": api.get_org_urls(organization)}
 
 @get("/organizations.<ending>")
 def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
     if ending == "json":
         response.content_type='application/json'
-        return json.dumps(api.get_organizations(), indent=2)
+        return api.get_organizations()
     return template("organizations.html")
 
 @get("/organization/<organization>.<ending>")
@@ -73,7 +66,7 @@ def get_organization(organization, ending):
     """
     if ending == "json":
         response.content_type='application/json'
-        return json.dumps(api.get_organization(organization), indent=2)
+        return api.get_organization(organization)
     return template("organization.html", organization=organization)
 
 @get("/repositories.<ending>")
@@ -81,21 +74,17 @@ def get_all_repositories(ending):
     """List all organizations with links to their statuses."""
     todo()
 
-@post("/repository.html")
-def add_repository():
+@post("/repository.<ending>")
+def add_repository(ending):
     """Sumbit a repository for scraping
     This shows an html page with a link to the status of the repository.
     """
     repository = request.forms.get('repository')
+    organization_name, repository_name = repository.split()
     scraper.scrape_repository(repository)
+    if ending == "json":
+        return {"status": "ok", "urls": api.get_repository_urls(organization_name, repository_name)}
     return template("added-repository.html", repository=repository)
-
-@post("/repository.json")
-def add_repository():
-    """Sumbit a repository for scraping
-    This shows an html page with a link to the status of the repository.
-    """
-    todo()
 
 @get("/repository/<organization>/<repository>.<ending>")
 def get_repository(organization, repository, ending):
