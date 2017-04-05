@@ -129,7 +129,7 @@ def add_user(user):
     
     Submit all found organizations.
     """
-    todo()
+    redirect("/organization/" + user)
 
 @get("/user/<user>.<ending>")
 def get_user(user, ending):
@@ -137,12 +137,12 @@ def get_user(user, ending):
 
     - what are the first-timer repositories?
     """
-    todo()
+    redirect("/organization/" + user + "." + ending)
 
 @get("/user.<ending>")
 def get_all_users(ending):
     """All the users and their statuses."""
-    todo()
+    redirect("/organizations." + ending)
 
 @get("/")
 def overview_page():
