@@ -1,6 +1,7 @@
 import os
 import requests
 import threading
+import time
 from .cache import NoCache
 from .response import Response
 from .repository import Repository
