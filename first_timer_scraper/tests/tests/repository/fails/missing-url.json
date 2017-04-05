@@ -30,6 +30,7 @@
       "number": 122,
       "created_at": "2011-01-26T19:01:12Z",
       "last_update": "2011-01-26T19:01:12Z",
+      "first_timer": "contributor1",
       "urls": {
         "json": "https://api.github.com/repos/loklak/loklak_server/pulls/122",
         "github_html": "https://github.com/loklak/loklak_server/pulls/122",

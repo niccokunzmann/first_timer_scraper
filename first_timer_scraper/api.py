@@ -46,6 +46,7 @@ class Api:
             contributor = self.get_minimal_user(m_contributor_name)
             pull_request = self.get_minimal_pullrequest(organization_name, repository_name, m_pullrequest_number)
             contributor["pull_request"] = pull_request["full_name"]
+            pull_request["first_timer"] = m_contributor_name
             first_timers[m_contributor_name] = contributor
             first_timer_pull_requests[pull_request["full_name"]] = pull_request
         repository["number_of_first_timers"] = len(first_timers)

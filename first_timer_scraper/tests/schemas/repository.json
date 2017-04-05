@@ -31,7 +31,14 @@
       "patternProperties": {
           "^[^/#]+/[^/#]+#[0123456789]+$": {
             "type": "object",
-            "format": "minimal_pullrequest"
+            "format": "minimal_pullrequest",
+            "properties": {
+              "first_timer" : {
+                "type": "string",
+                "pattern": "^[^/#]+$"
+              }
+            },
+            "required": ["first_timer"]
           }
       },
       "additionalProperties": false
