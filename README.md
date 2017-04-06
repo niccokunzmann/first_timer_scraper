@@ -182,10 +182,22 @@ Command Line
   These are the secrets to access thegithub API.
 - `MODEL_FOLDER` is the storage place of the model/the data base this is built.
   If you delete this, you can start scraping anew.
+  
+### Installation
+
+You need to install [Python 3](https://www.python.org/downloads/) and pip.
+Under Ubuntu, you can do this:
+
+    sudo apt-get -y install python3 python3-pip
+
+To install all required packages, execute
+
+    pip3 install --user -r requiremets.txt
 
 ### Windows
 
-`py -3.4 -m first_timer_scaper.app data secret model`
+    py -3 -m pip install --user -r requirements.txt
+    py -3 -m first_timer_scaper.app data secret model
 
 ### Docker
 
