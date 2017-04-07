@@ -128,16 +128,6 @@ API
 - Issues
   - TODO: do we need an issue endpoint?
 
-[organizations-schema]: first_timer_scaper/tests/schemas/organizations.json
-[organizations-examples]: first_timer_scaper/tests/tests/organizations/works
-[organization-schema]: first_timer_scaper/tests/schemas/organization.json
-[organization-examples]: first_timer_scaper/tests/tests/organization/works
-[repositories-schema]: first_timer_scaper/tests/schemas/repositories.json
-[repositories-examples]: first_timer_scaper/tests/tests/repositories/works
-[repository-schema]: first_timer_scaper/tests/schemas/repository.json
-[repository-examples]: first_timer_scaper/tests/tests/repository/works
-
-
 ### Minimal definitions
 
 When objects are defined, they contain minimal definitions.
@@ -222,6 +212,15 @@ submit credentails and scrape repositories.
 You can build the Docker image like this:
 
     docker build . -t niccokunzmann/first_timer_scraper
+    
+Deployment
+----------
+
+Deployment takes up to 24 hours from a merge into master:
+
+1. A commit is added to [master][commits-master].
+2. An [automated build][builds] is started.
+3. The [application is deployed][online] around 4:00 GMT
 
 Data Model
 ----------
@@ -264,3 +263,14 @@ Further Reading
 - PyGithub: https://github.com/PyGithub/PyGithub/
 
 [online]: https://firsttimers.quelltext.eu
+[commits-master]: https://github.com/niccokunzmann/first_timer_scraper/commits/master
+[builds]: https://hub.docker.com/r/niccokunzmann/first_timer_scraper/builds/
+[organizations-schema]: first_timer_scaper/tests/schemas/organizations.json
+[organizations-examples]: first_timer_scaper/tests/tests/organizations/works
+[organization-schema]: first_timer_scaper/tests/schemas/organization.json
+[organization-examples]: first_timer_scaper/tests/tests/organization/works
+[repositories-schema]: first_timer_scaper/tests/schemas/repositories.json
+[repositories-examples]: first_timer_scaper/tests/tests/repositories/works
+[repository-schema]: first_timer_scaper/tests/schemas/repository.json
+[repository-examples]: first_timer_scaper/tests/tests/repository/works
+
