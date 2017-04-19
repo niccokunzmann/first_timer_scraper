@@ -40,6 +40,7 @@ def template(name, **kw):
 
 def badge(number):
     response.set_header('Cache-Control', 'public, max-age={}'.format(SECONDS_TO_RESCRAPE))
+    response.set_header('Access-Control-Allow-Origin','*')
     response.content_type = "image/svg+xml;charset=utf-8"
     if number < 10:
         return template("First Timers-1-blue.svg", number=number)
