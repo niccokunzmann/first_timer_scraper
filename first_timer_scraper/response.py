@@ -13,9 +13,7 @@ class Response:
 
     @classmethod
     def from_response(cls, response):
-        headers = dict(response.headers)
-        headers['Access-Control-Allow-Origin'] = '*'
-        return cls(response.links, response.json(), headers, response.url)
+        return cls(response.links, response.json(), dict(response.headers), response.url)
         
     @classmethod
     def from_path(cls, path, url):
