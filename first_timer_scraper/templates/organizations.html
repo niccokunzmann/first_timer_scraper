@@ -1,10 +1,15 @@
-% organizations = api.get_organizations()
+% organizations = api.get_organizations(start, count)
 <html>
   <head>
+    <meta charset="UTF-8"/>
     <title>{{ len(organizations) }} Organizations</title>
   </head>
   <body>
-    <h1>{{ len(organizations) }} Organizations</h1>
+    <h1>
+      <a href="/organizations.html?offset={{ max(start - count, 0) }}&amp;limit={{ count }}">&#x21E6;</a>
+      {{ len(organizations) }} Organizations
+      <a href="/organizations.html?offset={{ start + count }}&amp;limit={{ count }}">&#x21E8;</a>
+    </h1>
     <p>
       These organizations have been scraped for first timers:
     </p>
@@ -38,7 +43,7 @@
       % end
     </ul>
       <a href="/organizations.json">
-        <pre>GET /organizations.json</pre>
+        <pre>GET /organizations.json?offset={{ start }}&amp;limit={{ count }}</pre>
       </a>
     </p>
   </body>

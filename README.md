@@ -89,6 +89,9 @@ API
     [example responses][organizations-examples]  
     List all organizations with links to their statuses.    
     Users may be listed among them.
+    Arguments: `offset=0&limit=10`
+    - offset is the number of organizaions to skip
+    - limit is the number of organizations to display
   - `GET /organization/<organization><ENDING>`  
     [schema][organization-schema]
     [example responses][organization-examples]  

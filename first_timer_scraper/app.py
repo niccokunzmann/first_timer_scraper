@@ -15,6 +15,8 @@ from .time import is_older_than_seconds
 
 APPLICATION = 'first_timer_scraper'
 ZIP_PATH = "/" + APPLICATION + ".zip"
+MAX_PAGINATION_COUNT = 100
+DEFAULT_PAGINATION_COUNT = 20
 HERE = os.path.dirname(__file__)
 STATIC_FILES = os.path.join(HERE, "static")
 TEMPLATE_FOLDER = os.path.join(HERE, "templates")
@@ -69,9 +71,11 @@ def add_organization_html(ending):
 @get("/organizations.<ending>")
 def get_all_organizations(ending):
     """List all organizations with links to their statuses."""
+    start = int(request.query.get("offset", 0))
+    count = min(int(request.query.get("limit", DEFAULT_PAGINATION_COUNT)), MAX_PAGINATION_COUNT)
     if ending == "json":
-        return api.get_organizations()
-    return template("organizations.html")
+        return api.get_organizations(start, count)
+    return template("organizations.html", start=start, count=count)
 
 @get("/organization/<organization>.<ending>")
 def get_organization(organization, ending):

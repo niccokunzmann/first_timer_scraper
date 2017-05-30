@@ -5,10 +5,12 @@ class Api:
     def __init__(self, model):
         self._model = model
 
-    def get_organizations(self):
+    def get_organizations(self, start, count):
         """Get the data as defined in the API"""
         with self._model:
             orgs = list(self._model.data)
+        orgs.sort()
+        orgs = orgs[start: start+count]
         return {name: self.get_organization(name) for name in orgs}
 
     def get_organization(self, organization_name):
