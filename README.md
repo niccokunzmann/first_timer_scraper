@@ -11,10 +11,10 @@ How can we make it possible for new-comers to contribute to a project.
 
 This web service tries to solve this by looking at the data:
 
-- What is it that first-timers contributed to?
+- What did first-timers contributed to?
 - Did they continue to contribute?
 - Which issues did they solve?
-- Which projects do best at welcoming new contributors?
+- Which projects are best at welcoming new contributors?
 
 First Timer Contributions
 -------------------------
@@ -22,31 +22,31 @@ First Timer Contributions
 To find first timer pull-requests, we look at organizations and
 their repositories.
 
-- **What are first timer repositories?**  
+- **What are first timer repositories?**
   - They MUST have at least two people contributing
   - They MUST have pull requests
 
 - **What is a first-timer pull-request?**
-  - They MUST have at least one commmit
+  - They MUST have at least one commit
   - In the repository history:
     - The issue commit MUST be preceded by commits of the author
     - At least one "other author" MUST have contributed before
     - There MUST NOT be a commit of the author before the "other author"
   - They may be on any branch.
 
-- **What is a first-timer issue?**  
+- **What is a first-timer issue?**
   There is no automatic linking between the pull-request and the issue.
   Thus, we must assume that one of the following takes place:
-  - There is a public web page linked in the pull-request.  
-    This is the case with external issue trackers like with django.
+  - There is a public web page linked in the pull-request.
+    This is the case with external issue trackers like with Django.
     We may assume certain issue trackers.
-  - The issue is referenced as github issue in the pull-request.
+  - The issue is referenced as GitHub issue in the pull-request.
   - The issue is referenced by commits by the author preceding the merge commit.
 
 Implementation
 --------------
 
-For each organization sumbitted:
+For each organization submitted:
 1. submit all repositories
 
 For each submitted repository
@@ -60,7 +60,7 @@ For each submitted repository
 4. Get all pull-requests
    - Get the first commit
    - Get the author, email
-   - Get the github user issuing this pull-request
+   - Get the GitHub user issuing this pull-request
 5. find first-timer pull-requests
 
 API
@@ -69,63 +69,63 @@ API
 `ENDING` is either `.html` or `.json`.
 
 - General
-  - `GET /`  
+  - `GET /`
     Show a description of the project.
     - Link to this repository#readme.
     - Link to download the code /source.
     - How to contribute.
     - What this is about.
-  - `GET /source`  
+  - `GET /source`
     Get the source code as a zip file.
-- Github Authentication:
+- GitHub Authentication:
   - `GET /auth`
     Show a form to register a new authentication.
-  - `POST /auth`  
-    Add `username` and `password` to those usable to scrape github.
+  - `POST /auth`
+    Add `username` and `password` to those usable to scrape GitHub.
     They will be tried and removed if invalid.
 - Organization
-  - `GET /organizations<ENDING>`  
+  - `GET /organizations<ENDING>`
     [schema][organizations-schema]
-    [example responses][organizations-examples]  
-    List all organizations with links to their statuses.    
+    [example responses][organizations-examples]
+    List all organizations with links to their statuses.
     Users may be listed among them.
     Arguments: `offset=0&limit=10`
-    - offset is the number of organizaions to skip
+    - offset is the number of organizations to skip
     - limit is the number of organizations to display
-  - `GET /organization/<organization><ENDING>`  
+  - `GET /organization/<organization><ENDING>`
     [schema][organization-schema]
-    [example responses][organization-examples]  
+    [example responses][organization-examples]
     Get an organization and its status.
     Same as the element of `/organizations.json`
     Ending:
     - `json`
     - `html`
     - `svg` ![](https://img.shields.io/badge/First%20Timers-1-blue.svg)
-  - `POST /organization<ENDING>`  
+  - `POST /organization<ENDING>`
     Submit an `organization` for scraping.
     This shows an html page with a link to the status of the organization.
 - Repository
-  - `GET /repositories<ENDING>`  
+  - `GET /repositories<ENDING>`
     [schema][repositories-schema]
-    [example responses][repositories-examples]  
+    [example responses][repositories-examples]
     List all repositories with links to their statuses.
     See below for the content of the list.
-  - `GET /repository/<organization>/<repository><ENDING>`  
+  - `GET /repository/<organization>/<repository><ENDING>`
     [schema][repository-schema]
-    [example responses][repository-examples]  
-    Get the repository and its status.  
+    [example responses][repository-examples]
+    Get the repository and its status.
     Ending:
     - `json`
     - `html`
     - `svg` ![](https://img.shields.io/badge/First%20Timers-1-blue.svg)
-  - `POST /repository`  
-    Sumbit a `repository` for scraping
+  - `POST /repository`
+    Submit a `repository` for scraping
 - User
-  - `GET /users<ENDING>`  
+  - `GET /users<ENDING>`
     Same as `GET /organizations<ENDING>`.
-  - `GET /user/<user><ENDING>`  
+  - `GET /user/<user><ENDING>`
     Same as `GET /organization/<user><ENDING>`.
-  - `POST /user/<user>`  
+  - `POST /user/<user>`
     Trace back the user's repositories to their origins.
     Submit all found organizations.
 - Issues
@@ -172,10 +172,10 @@ Command Line
 - `CACHE_FOLDER` is the folder where the scraped data is stored.
   This is the cache. It is totally ok to remove all this data.
 - `SECRETS_FOLDER` is the folder where the secrets are stored.
-  These are the secrets to access thegithub API.
+  These are the secrets to access the GitHub API.
 - `MODEL_FOLDER` is the storage place of the model/the data base this is built.
   If you delete this, you can start scraping anew.
-  
+
 ### Installation
 
 You need to install [Python 3](https://www.python.org/downloads/) and pip.
@@ -185,12 +185,12 @@ Under Ubuntu, you can do this:
 
 To install all required packages, execute
 
-    pip3 install --user -r requiremets.txt
+    pip3 install --user -r requirements.txt
 
 ### Windows
 
     py -3 -m pip install --user -r requirements.txt
-    py -3 -m first_timer_scaper.app data secret model
+    py -3 -m first_timer_scraper.app data secret model
 
 ### Docker
 
@@ -210,12 +210,12 @@ The parameters have the following meaning:
   It removes the container and all the cache when the container stops.
 
 When you ran the command, you can visit <http://localhost:8080>,
-submit credentails and scrape repositories.
+submit credentials and scrape repositories.
 
 You can build the Docker image like this:
 
     docker build . -t niccokunzmann/first_timer_scraper
-    
+
 Deployment
 ----------
 
@@ -261,19 +261,19 @@ The data model describes what is saved when scraped.
 Further Reading
 ---------------
 
-- Github API:
+- GitHub API:
   - Rate Limiting: https://developer.github.com/v3/#rate-limiting
 - PyGithub: https://github.com/PyGithub/PyGithub/
 
 [online]: https://firsttimers.quelltext.eu
 [commits-master]: https://github.com/niccokunzmann/first_timer_scraper/commits/master
 [builds]: https://hub.docker.com/r/niccokunzmann/first_timer_scraper/builds/
-[organizations-schema]: first_timer_scaper/tests/schemas/organizations.json
-[organizations-examples]: first_timer_scaper/tests/tests/organizations/works
-[organization-schema]: first_timer_scaper/tests/schemas/organization.json
-[organization-examples]: first_timer_scaper/tests/tests/organization/works
-[repositories-schema]: first_timer_scaper/tests/schemas/repositories.json
-[repositories-examples]: first_timer_scaper/tests/tests/repositories/works
-[repository-schema]: first_timer_scaper/tests/schemas/repository.json
-[repository-examples]: first_timer_scaper/tests/tests/repository/works
+[organizations-schema]: first_timer_scraper/tests/schemas/organizations.json
+[organizations-examples]: first_timer_scraper/tests/tests/organizations/works
+[organization-schema]: first_timer_scraper/tests/schemas/organization.json
+[organization-examples]: first_timer_scraper/tests/tests/organization/works
+[repositories-schema]: first_timer_scraper/tests/schemas/repositories.json
+[repositories-examples]: first_timer_scraper/tests/tests/repositories/works
+[repository-schema]: first_timer_scraper/tests/schemas/repository.json
+[repository-examples]: first_timer_scraper/tests/tests/repository/works
 
