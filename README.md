@@ -69,13 +69,13 @@ API
 `ENDING` is either `.html` or `.json`.
 
 - General
-  - `GET /`
+  - `GET /`  
     Show a description of the project.
     - Link to this repository#readme.
     - Link to download the code /source.
     - How to contribute.
     - What this is about.
-  - `GET /source`
+  - `GET /source`  
     Get the source code as a zip file.
 - GitHub Authentication:
   - `GET /auth`
@@ -84,48 +84,48 @@ API
     Add `username` and `password` to those usable to scrape GitHub.
     They will be tried and removed if invalid.
 - Organization
-  - `GET /organizations<ENDING>`
+  - `GET /organizations<ENDING>`  
     [schema][organizations-schema]
-    [example responses][organizations-examples]
-    List all organizations with links to their statuses.
+    [example responses][organizations-examples]  
+    List all organizations with links to their statuses.    
     Users may be listed among them.
     Arguments: `offset=0&limit=10`
     - offset is the number of organizations to skip
     - limit is the number of organizations to display
-  - `GET /organization/<organization><ENDING>`
+  - `GET /organization/<organization><ENDING>`  
     [schema][organization-schema]
-    [example responses][organization-examples]
+    [example responses][organization-examples]  
     Get an organization and its status.
     Same as the element of `/organizations.json`
     Ending:
     - `json`
     - `html`
     - `svg` ![](https://img.shields.io/badge/First%20Timers-1-blue.svg)
-  - `POST /organization<ENDING>`
+  - `POST /organization<ENDING>`  
     Submit an `organization` for scraping.
     This shows an html page with a link to the status of the organization.
 - Repository
-  - `GET /repositories<ENDING>`
+  - `GET /repositories<ENDING>`  
     [schema][repositories-schema]
-    [example responses][repositories-examples]
+    [example responses][repositories-examples]  
     List all repositories with links to their statuses.
     See below for the content of the list.
-  - `GET /repository/<organization>/<repository><ENDING>`
+  - `GET /repository/<organization>/<repository><ENDING>`  
     [schema][repository-schema]
-    [example responses][repository-examples]
-    Get the repository and its status.
+    [example responses][repository-examples]  
+    Get the repository and its status.  
     Ending:
     - `json`
     - `html`
     - `svg` ![](https://img.shields.io/badge/First%20Timers-1-blue.svg)
-  - `POST /repository`
+  - `POST /repository`  
     Submit a `repository` for scraping
 - User
-  - `GET /users<ENDING>`
+  - `GET /users<ENDING>`  
     Same as `GET /organizations<ENDING>`.
-  - `GET /user/<user><ENDING>`
+  - `GET /user/<user><ENDING>`  
     Same as `GET /organization/<user><ENDING>`.
-  - `POST /user/<user>`
+  - `POST /user/<user>`  
     Trace back the user's repositories to their origins.
     Submit all found organizations.
 - Issues
@@ -175,7 +175,7 @@ Command Line
   These are the secrets to access the GitHub API.
 - `MODEL_FOLDER` is the storage place of the model/the data base this is built.
   If you delete this, you can start scraping anew.
-
+  
 ### Installation
 
 You need to install [Python 3](https://www.python.org/downloads/) and pip.
