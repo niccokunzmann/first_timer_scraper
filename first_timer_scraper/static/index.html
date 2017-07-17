@@ -1,14 +1,17 @@
 <html>
   <head>
     <title>First Timer Scraper</title>
-      <link rel="stylesheet" type="text/css" href="index.css">
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
   <body>
+    <div class="w3-container w3-teal w3-center">
     <h1>First Timer Scraper</h1>
+  </div>
+  <div class="w3-left w3-margin">
     <p>
       This software shows people who are first time contributors to repositories.
     </p>
-    <ul>
+    <ul class="w3-ul w3-left w3-hoverable">
       <li>
         You can <a href="/organizations.html">view scraped organizations</a>.
       </li>
@@ -23,17 +26,19 @@
         <a href="/auth">adding a username and a password</a>.
       </li>
     </ul>
-    <form action="/organization.html" method="post">
+    <form action="/organization.html" method="post" class="w3-container">
+      </br></br>
       Submit an organization or a user to search all repositories for first-timers: <br/>
       Organization/User:
       <input type="text" name="organization">
-      <input type="submit" value="Submit">
+      <input type="submit" value="Submit" class="w3-btn w3-teal">
     </form>
-    <form action="/repository.html" method="post">
+    <form action="/repository.html" method="post" class="w3-container">
       Submit a repository to search it for first-timers: <br/>
       Repository:
       <input type="text" name="repository">
-      <input type="submit" value="Submit">
+      <input type="submit" value="Submit" class="w3-btn w3-teal">
     </form>
+  </div>
   </body>
 </html>
