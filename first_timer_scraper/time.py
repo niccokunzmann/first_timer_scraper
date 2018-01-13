@@ -5,7 +5,7 @@ FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 def to_string(t):
     """Return the time in equivalent to github format.
     
-    This is Greenwith Mean Time (UTC).
+    This is Greenwich Mean Time (GMT).
     """
     return time.strftime(FORMAT, time.gmtime(t))
 
