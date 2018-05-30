@@ -65,6 +65,7 @@ def add_organization_html(ending):
     organization = request.forms.get('organization')
     scraper.scrape_organization(organization)
     if ending == "json":
+        response.set_header('Access-Control-Allow-Origin','*')
         return {"status": "ok", "urls": api.get_organization_urls(organization)}
     return template("added-organization.html", organization=organization)
 
@@ -74,6 +75,7 @@ def get_all_organizations(ending):
     start = int(request.query.get("offset", 0))
     count = min(int(request.query.get("limit", DEFAULT_PAGINATION_COUNT)), MAX_PAGINATION_COUNT)
     if ending == "json":
+        response.set_header('Access-Control-Allow-Origin','*')
         return api.get_organizations(start, count)
     return template("organizations.html", start=start, count=count)
 
@@ -85,6 +87,7 @@ def get_organization(organization, ending):
     if needs_update(data):
         scraper.scrape_organization(organization)
     if ending == "json":
+        response.set_header('Access-Control-Allow-Origin','*')
         return data
     if ending == "svg":
         return badge(data["number_of_first_timers"])
@@ -104,6 +107,7 @@ def add_repository(ending):
     organization_name, repository_name = repository.split("/")
     scraper.scrape_repository(repository)
     if ending == "json":
+        response.set_header('Access-Control-Allow-Origin','*')
         return {"status": "ok", "urls": api.get_repository_urls(organization_name, repository_name)}
     return template("added-repository.html", repository=repository)
 
@@ -115,6 +119,7 @@ def get_repository(organization, repository, ending):
     if needs_update(data):
         scraper.scrape_repository(organization + "/" + repository)
     if ending == "json":
+        response.set_header('Access-Control-Allow-Origin','*')
         return data
     if ending == "svg":
         return badge(data["number_of_first_timers"])
